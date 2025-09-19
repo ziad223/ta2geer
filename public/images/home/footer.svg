@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="612.91" height="343.521" viewBox="0 0 612.91 343.521">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_67522" data-name="Path 67522" d="M0,96.287H612.91v343.52H0Z" transform="translate(0 -96.287)" fill="#1d5483"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_2407" data-name="Mask Group 2407" transform="translate(0 0)" clip-path="url(#clip-path)">
+    <g id="Group_176165" data-name="Group 176165" transform="translate(0 -180.122)">
+      <g id="Group_176137" data-name="Group 176137" transform="translate(0 0)" opacity="0.14">
+        <ellipse id="Ellipse_7950" data-name="Ellipse 7950" cx="170.755" cy="145.223" rx="170.755" ry="145.223" transform="translate(226.166 58.666)" fill="#fff" opacity="0.38"/>
+        <g id="Group_176136" data-name="Group 176136" opacity="0.56">
+          <ellipse id="Ellipse_7948" data-name="Ellipse 7948" cx="170.755" cy="145.223" rx="170.755" ry="145.223" transform="translate(351.688 289.485)" fill="#fff" opacity="0.72"/>
+          <ellipse id="Ellipse_7949" data-name="Ellipse 7949" cx="170.755" cy="145.223" rx="170.755" ry="145.223" transform="translate(309.847 173.114)" fill="#fff" opacity="0.44"/>
+          <ellipse id="Ellipse_7951" data-name="Ellipse 7951" cx="170.755" cy="145.223" rx="170.755" ry="145.223" transform="translate(114.214 75.016)" fill="#fff" opacity="0.21"/>
+          <ellipse id="Ellipse_7952" data-name="Ellipse 7952" cx="170.755" cy="145.223" rx="170.755" ry="145.223" fill="#fff" opacity="0.39"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
