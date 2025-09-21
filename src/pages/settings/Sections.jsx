@@ -119,7 +119,7 @@ const Sections = () => {
               onClick={() => setAddModalOpen(true)}
               className="bg-[#2ba670] px-4 h-[40px] text-white rounded-md w-full md:w-auto"
             >
-              أضف موظف +
+              أضف قسم +
             </button>
           </div>
 

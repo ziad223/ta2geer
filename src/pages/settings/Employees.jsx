@@ -103,7 +103,7 @@ const Employees = () => {
 
   return (
     <Container>
-      <div className="p-4">
+      <div className="p-4 min-h-screen">
         <h2 className="text-xl font-bold mb-4">الموظفين</h2>
 
         <div className="bg-white mt-5 shadow-sm p-5 rounded-lg">

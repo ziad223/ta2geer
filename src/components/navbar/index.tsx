@@ -23,7 +23,8 @@ const Navbar = () => {
   return (
     <>
       <ToolBar />
-         <div className='bg-white'>
+      
+         <div className='bg-white '>
         <div className='lg:w-full mx-auto px-5 py-4'>
           <div className='flex justify-between items-center lg:hidden'>
             <button onClick={toggleMenu} className='text-2xl text-black'>
@@ -32,61 +33,69 @@ const Navbar = () => {
           </div>
           <ul className={`flex flex-col lg:flex-row gap-4 mt-4 lg:mt-0 ${menuOpen ? 'block' : 'hidden'} lg:flex justify-center items-center`}>
             <li>
-              <Link to="/ar" className='text-black flex items-center gap-1 text-sm '>
+              <Link to="/" className='text-black hover:text-[#09adce] transition duration-300 flex items-center gap-1 text-sm '>
                  الرئيسية <IoMdHome className='text-gray-500' size={20} />
               </Link>
             </li>
             <li>
-              <Link to="/ar" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/clients" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                  العملاء <FaUser  className='text-gray-500' size={18} />
               </Link>
             </li>
             <li>
-              <Link to="/ar" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/halls" className='text-black flex hover:text-[#09adce] transition duration-300  items-center gap-1 text-sm'>
                  القاعات <FaBuilding   className='text-gray-500' size={18} />
               </Link>
             </li>
             <li>
-              <Link to="/ar/patients" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/reservations" className='text-black flex hover:text-[#09adce] transition duration-300  items-center gap-1 text-sm'>
                 الحجوزات <FaFileAlt className='text-gray-500'  size={18} />
               </Link>
             </li>
             <li>
-              <Link to="/ar/appointments" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/invoices" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                 الفواتير <FaChartLine  className='text-gray-500' size={18}  />
               </Link>
             </li>
             <li>
-              <Link to="/ar/appointments" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/new-invoices" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                 الفواتير المبسطة <FaMoneyBill  className='text-gray-500' size={18}  />
               </Link>
             </li>
             <li>
-              <Link to="/ar/invoices" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/ar/invoices" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                 الفواتير <LiaFileInvoiceSolid className='text-gray-500' size={18}  />
               </Link>
             </li>
             <li>
-              <Link to="/ar/pay-visit" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/ar/pay-visit" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                  التقارير والمحاسبة <FaBarsProgress  className='text-gray-500' size={18}  />
               </Link>
             </li>
             <li>
-              <Link to="/ar/treatment-plans" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/photo-gallery" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                 المعرض <FaFileSignature  className='text-gray-500' size={18}  />
               </Link>
             </li>
            
             <li>
-              <Link to="/ar/pay_package" className='text-black flex items-center gap-1 text-sm'>
+              <Link to="/alerts" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                  التنبيهات <IoMdNotifications  className='text-gray-500' size={20} />
               </Link>
             </li>
               <li>
-              <button className='text-white  flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg'>
-                 <IoMdNotifications size={20}/>
-                 <span>حجوزات الزوار</span>
-              </button>
+              <button className='text-white flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg relative'>
+  <div className="relative">
+    <IoMdNotifications size={20} />
+    {/* Badge */}
+    <span className="absolute -top-1.5 -right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full shadow">
+      3
+    </span>
+  </div>
+  <span>حجوزات الزوار</span>
+</button>
+
+
               
             </li>
              <li>

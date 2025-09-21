@@ -1,18 +1,44 @@
 import React, { useState, useEffect } from "react";
-
+import CustomSelect from "../../components/shared/CustomSelect";
 const EditPayWayModal = ({ payWay, onClose, onSave }) => {
-  const [form, setForm] = useState(payWay);
+  const [form, setForm] = useState({
+    ...payWay,
+    status: payWay?.status ? { value: payWay.status, label: payWay.status } : null,
+    cash: payWay?.cash ? { value: payWay.cash, label: payWay.cash } : null,
+    defaultPayment: payWay?.defaultPayment
+      ? { value: payWay.defaultPayment, label: payWay.defaultPayment }
+      : null,
+  });
 
   useEffect(() => {
-    if (payWay) setForm(payWay);
+    if (payWay) {
+      setForm({
+        ...payWay,
+        status: payWay.status ? { value: payWay.status, label: payWay.status } : null,
+        cash: payWay.cash ? { value: payWay.cash, label: payWay.cash } : null,
+        defaultPayment: payWay.defaultPayment
+          ? { value: payWay.defaultPayment, label: payWay.defaultPayment }
+          : null,
+      });
+    }
   }, [payWay]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSelectChange = (selected, { name }) => {
+    setForm({ ...form, [name]: selected });
+  };
+
   const handleSubmit = () => {
-    onSave(form);
+    const formatted = {
+      ...form,
+      status: form.status?.value || "",
+      cash: form.cash?.value || "",
+      defaultPayment: form.defaultPayment?.value || "",
+    };
+    onSave(formatted);
   };
 
   return (
@@ -21,26 +47,79 @@ const EditPayWayModal = ({ payWay, onClose, onSave }) => {
         <h3 className="text-lg font-bold mb-4">تعديل طريقة الدفع</h3>
 
         <div className="flex flex-col gap-3">
-          <input name="name" placeholder="الاسم" value={form.name} onChange={handleChange} className="border p-2 rounded" />
-          <input name="accountNumber" placeholder="رقم الحساب" value={form.accountNumber} onChange={handleChange} className="border p-2 rounded" />
-          <select name="status" value={form.status} onChange={handleChange} className="border p-2 rounded">
-            <option>نشط</option>
-            <option>موقوف</option>
-          </select>
-          <select name="cash" value={form.cash} onChange={handleChange} className="border p-2 rounded">
-            <option>نعم</option>
-            <option>لا</option>
-          </select>
-          <select name="defaultPayment" value={form.defaultPayment} onChange={handleChange} className="border p-2 rounded">
-            <option>نعم</option>
-            <option>لا</option>
-          </select>
-          <input name="employees" placeholder="الموظفين" value={form.employees} onChange={handleChange} className="border p-2 rounded" />
+          <input
+            name="name"
+            placeholder="الاسم"
+            value={form.name}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+          <input
+            name="accountNumber"
+            placeholder="رقم الحساب"
+            value={form.accountNumber}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+
+          {/* status */}
+          <CustomSelect
+            name="status"
+            options={[
+              { value: "نشط", label: "نشط" },
+              { value: "موقوف", label: "موقوف" },
+            ]}
+            value={form.status}
+            onChange={handleSelectChange}
+            placeholder="اختر الحالة"
+          />
+
+          {/* cash */}
+          <CustomSelect
+            name="cash"
+            options={[
+              { value: "نعم", label: "نعم" },
+              { value: "لا", label: "لا" },
+            ]}
+            value={form.cash}
+            onChange={handleSelectChange}
+            placeholder="كاش؟"
+          />
+
+          {/* defaultPayment */}
+          <CustomSelect
+            name="defaultPayment"
+            options={[
+              { value: "نعم", label: "نعم" },
+              { value: "لا", label: "لا" },
+            ]}
+            value={form.defaultPayment}
+            onChange={handleSelectChange}
+            placeholder="افتراضي؟"
+          />
+
+          <input
+            name="employees"
+            placeholder="الموظفين"
+            value={form.employees}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
         </div>
 
         <div className="flex justify-end gap-3 mt-5">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">إلغاء</button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-[#0dcaf0] text-white rounded">تحديث</button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 rounded"
+          >
+            إلغاء
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-[#0dcaf0] text-white rounded"
+          >
+            تحديث
+          </button>
         </div>
       </div>
     </div>

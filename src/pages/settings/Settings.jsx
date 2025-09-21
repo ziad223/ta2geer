@@ -33,10 +33,10 @@ const paymentMethodOptions = useMemo(() => [
                 <span>الأقسام</span>
                 <FaBuffer/>
             </Link>
-            <button className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
+            <Link to='/settings/privacy-policy' className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
                 <span>سياسة الخصوصية</span>
                 <FaUserShield/>
-            </button>
+            </Link>
             <Link to='/settings/pay-ways' className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
                 <span>طرق الدفع</span>
                 <FaCreditCard/>

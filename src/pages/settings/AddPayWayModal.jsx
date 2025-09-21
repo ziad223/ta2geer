@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import CustomSelect from "../../components/shared/CustomSelect";
 
 const AddPayWayModal = ({ onClose, onSave }) => {
   const [form, setForm] = useState({
     name: "",
     accountNumber: "",
-    status: "نشط",
-    cash: "لا",
-    defaultPayment: "لا",
+    status: { value: "نشط", label: "نشط" },
+    cash: { value: "لا", label: "لا" },
+    defaultPayment: { value: "لا", label: "لا" },
     employees: "",
   });
 
@@ -14,8 +15,18 @@ const AddPayWayModal = ({ onClose, onSave }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSelectChange = (selected, { name }) => {
+    setForm({ ...form, [name]: selected });
+  };
+
   const handleSubmit = () => {
-    onSave(form);
+    const formatted = {
+      ...form,
+      status: form.status?.value || "",
+      cash: form.cash?.value || "",
+      defaultPayment: form.defaultPayment?.value || "",
+    };
+    onSave(formatted);
   };
 
   return (
@@ -24,26 +35,80 @@ const AddPayWayModal = ({ onClose, onSave }) => {
         <h3 className="text-lg font-bold mb-4">إضافة طريقة دفع</h3>
 
         <div className="flex flex-col gap-3">
-          <input name="name" placeholder="الاسم" value={form.name} onChange={handleChange} className="border p-2 rounded" />
-          <input name="accountNumber" placeholder="رقم الحساب" value={form.accountNumber} onChange={handleChange} className="border p-2 rounded" />
-          <select name="status" value={form.status} onChange={handleChange} className="border p-2 rounded">
-            <option>نشط</option>
-            <option>موقوف</option>
-          </select>
-          <select name="cash" value={form.cash} onChange={handleChange} className="border p-2 rounded">
-            <option>نعم</option>
-            <option>لا</option>
-          </select>
-          <select name="defaultPayment" value={form.defaultPayment} onChange={handleChange} className="border p-2 rounded">
-            <option>نعم</option>
-            <option>لا</option>
-          </select>
-          <input name="employees" placeholder="الموظفين" value={form.employees} onChange={handleChange} className="border p-2 rounded" />
+          <input
+            name="name"
+            placeholder="الاسم"
+            value={form.name}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+
+          <input
+            name="accountNumber"
+            placeholder="رقم الحساب"
+            value={form.accountNumber}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
+
+          {/* status */}
+          <CustomSelect
+            name="status"
+            options={[
+              { value: "نشط", label: "نشط" },
+              { value: "موقوف", label: "موقوف" },
+            ]}
+            value={form.status}
+            onChange={handleSelectChange}
+            placeholder="اختر الحالة"
+          />
+
+          {/* cash */}
+          <CustomSelect
+            name="cash"
+            options={[
+              { value: "نعم", label: "نعم" },
+              { value: "لا", label: "لا" },
+            ]}
+            value={form.cash}
+            onChange={handleSelectChange}
+            placeholder="كاش؟"
+          />
+
+          {/* defaultPayment */}
+          <CustomSelect
+            name="defaultPayment"
+            options={[
+              { value: "نعم", label: "نعم" },
+              { value: "لا", label: "لا" },
+            ]}
+            value={form.defaultPayment}
+            onChange={handleSelectChange}
+            placeholder="افتراضي؟"
+          />
+
+          <input
+            name="employees"
+            placeholder="الموظفين"
+            value={form.employees}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
         </div>
 
         <div className="flex justify-end gap-3 mt-5">
-          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">إلغاء</button>
-          <button onClick={handleSubmit} className="px-4 py-2 bg-[#2ba670] text-white rounded">حفظ</button>
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 rounded"
+          >
+            إلغاء
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-[#2ba670] text-white rounded"
+          >
+            حفظ
+          </button>
         </div>
       </div>
     </div>

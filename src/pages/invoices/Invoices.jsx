@@ -4,6 +4,7 @@ import Table from '../../components/shared/Table';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
+import CustomSelect from '../../components/shared/CustomSelect';
 
 const Invoices = () => {
   const [searchClientOrHall, setSearchClientOrHall] = useState('');
@@ -196,57 +197,77 @@ const Invoices = () => {
 
   return (
     <Container>
-      <div className="p-4 min-h-screen">
+      <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">الفواتير</h2>
 
         <div className="bg-white p-4 rounded-lg shadow-sm">
           {/* فلاتر البحث */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
-            <input
-              type="text"
-              value={searchClientOrHall}
-              onChange={e => setSearchClientOrHall(e.target.value)}
-              placeholder="بحث عن عميل أو قاعة"
-              className="border h-[40px] px-3 rounded-lg text-sm w-full  outline-none"
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
+  <input
+    type="text"
+    value={searchClientOrHall}
+    onChange={e => setSearchClientOrHall(e.target.value)}
+    placeholder="بحث عن عميل أو قاعة"
+    className="border h-[40px] px-3 rounded-lg text-sm w-full outline-none"
+  />
 
-            <div className="flex gap-2 col-span-2">
-              <input
-                type="date"
-                value={dateFrom}
-                onChange={e => setDateFrom(e.target.value)}
-                className="border h-[40px] px-2 rounded-lg text-sm w-full  outline-none"
-              />
-              <input
-                type="date"
-                value={dateTo}
-                onChange={e => setDateTo(e.target.value)}
-                className="border h-[40px] px-2 rounded-lg text-sm w-full  outline-none"
-              />
-            </div>
+  <div className="flex gap-2 col-span-2">
+    <input
+      type="date"
+      value={dateFrom}
+      onChange={e => setDateFrom(e.target.value)}
+      className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+    />
+    <input
+      type="date"
+      value={dateTo}
+      onChange={e => setDateTo(e.target.value)}
+      className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+    />
+  </div>
 
-            <select
-              value={paymentStatusFilter}
-              onChange={e => setPaymentStatusFilter(e.target.value)}
-              className="border h-[40px] px-3 rounded-lg text-sm w-full  outline-none"
-            >
-              <option value="">كل حالات الفاتورة</option>
-              <option value="مدفوعة">مدفوعة</option>
-                            <option value="مدفوعة جزئيا">مدفوعة جزئيا</option>
-              <option value="غير مدفوعة">غير مدفوعة</option>
-            </select>
+  <CustomSelect
+    value={
+      paymentStatusFilter
+        ? { label: paymentStatusFilter, value: paymentStatusFilter }
+        : null
+    }
+    onChange={(selected) =>
+      setPaymentStatusFilter(selected ? selected.value : "")
+    }
+    options={[
+      { value: "", label: "كل حالات الفاتورة" },
+      { value: "مدفوعة", label: "مدفوعة" },
+      { value: "مدفوعة جزئيا", label: "مدفوعة جزئيا" },
+      { value: "غير مدفوعة", label: "غير مدفوعة" },
+    ]}
+    className="text-sm w-full md:w-[200px]"
+    placeholder="كل حالات الفاتورة"
+  />
 
-            <select
-              value={reservationStatusFilter}
-              onChange={e => setReservationStatusFilter(e.target.value)}
-              className="border h-[40px] px-3 rounded-lg text-sm w-full  outline-none"
-            >
-              <option value="">كل حالات الحجز</option>
-              <option value="مؤكد">مؤكد</option>
-              <option value="ملغي">ملغي</option>
-              <option value="قيد الانتظار">قيد الانتظار</option>
-            </select>
-          </div>
+  <CustomSelect
+    value={
+      reservationStatusFilter
+        ? {
+            label: reservationStatusFilter,
+            value: reservationStatusFilter,
+          }
+        : null
+    }
+    onChange={(selected) =>
+      setReservationStatusFilter(selected ? selected.value : "")
+    }
+    options={[
+      { value: "", label: "كل حالات الحجز" },
+      { value: "مؤكد", label: "مؤكد" },
+      { value: "ملغي", label: "ملغي" },
+      { value: "قيد الانتظار", label: "قيد الانتظار" },
+    ]}
+    className="text-sm w-full md:w-[200px]"
+    placeholder="كل حالات الحجز"
+  />
+</div>
+
 
           {/* جدول الحجوزات */}
           <Table columns={columns} data={dataWithActions} />

@@ -1,17 +1,18 @@
-import React, { useState, useMemo } from 'react';
-import Container from '../../components/shared/Container';
-import Table from '../../components/shared/Table';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
-import EditReservationModal from './EditReservationModal';
-import DeleteReservationModal from './DeleteReservationModal';
-import AddReservationModal from './AddReservationModal';
+import React, { useState, useMemo } from "react";
+import Container from "../../components/shared/Container";
+import Table from "../../components/shared/Table";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import EditReservationModal from "./EditReservationModal";
+import DeleteReservationModal from "./DeleteReservationModal";
+import AddReservationModal from "./AddReservationModal";
+import CustomSelect from "../../components/shared/CustomSelect";
 
 const Reservations = () => {
-  const [searchId, setSearchId] = useState('');
-  const [eventType, setEventType] = useState('');
-  const [owner, setOwner] = useState('');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
+  const [searchId, setSearchId] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [owner, setOwner] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const [reservations, setReservations] = useState([
     {
@@ -35,7 +36,7 @@ const Reservations = () => {
       reservationStatus: "مؤكد",
       paymentStatus: "جزئي",
       notes: "يلزم التواصل قبل الموعد بـ 3 أيام",
-      owner: "نبيل 1"
+      owner: "نبيل 1",
     },
     {
       id: 2,
@@ -58,23 +59,22 @@ const Reservations = () => {
       reservationStatus: "مؤكد",
       paymentStatus: "مدفوع",
       notes: "",
-      owner: "نبيل 2"
-    }
+      owner: "نبيل 2",
+    },
   ]);
 
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
 
   const openEditModal = (reservation) => {
     setSelectedReservation(reservation);
     setEditModalOpen(true);
   };
-const handleAddReservation = (newRes) => {
-  setReservations(prev => [...prev, newRes]);
-};
-
+  const handleAddReservation = (newRes) => {
+    setReservations((prev) => [...prev, newRes]);
+  };
 
   const openDeleteModal = (reservation) => {
     setSelectedReservation(reservation);
@@ -82,13 +82,13 @@ const handleAddReservation = (newRes) => {
   };
 
   const handleUpdateReservation = (updated) => {
-    setReservations(prev =>
-      prev.map(r => (r.id === updated.id ? updated : r))
+    setReservations((prev) =>
+      prev.map((r) => (r.id === updated.id ? updated : r))
     );
   };
 
   const handleDeleteReservation = (id) => {
-    setReservations(prev => prev.filter(r => r.id !== id));
+    setReservations((prev) => prev.filter((r) => r.id !== id));
     setDeleteModalOpen(false);
     setSelectedReservation(null);
   };
@@ -118,17 +118,23 @@ const handleAddReservation = (newRes) => {
   ];
 
   const filteredReservations = useMemo(() => {
-    return reservations.filter(r => {
+    return reservations.filter((r) => {
       const matchesId = searchId ? r.id.toString().includes(searchId) : true;
       const matchesEvent = eventType ? r.eventType === eventType : true;
       const matchesOwner = owner ? r.owner === owner : true;
-      const matchesFrom = dateFrom ? new Date(r.startDate) >= new Date(dateFrom) : true;
-      const matchesTo = dateTo ? new Date(r.endDate) <= new Date(dateTo) : true;
-      return matchesId && matchesEvent && matchesOwner && matchesFrom && matchesTo;
+      const matchesFrom = dateFrom
+        ? new Date(r.startDate) >= new Date(dateFrom)
+        : true;
+      const matchesTo = dateTo
+        ? new Date(r.endDate) <= new Date(dateTo)
+        : true;
+      return (
+        matchesId && matchesEvent && matchesOwner && matchesFrom && matchesTo
+      );
     });
   }, [searchId, eventType, owner, dateFrom, dateTo, reservations]);
 
-  const dataWithActions = filteredReservations.map(r => ({
+  const dataWithActions = filteredReservations.map((r) => ({
     ...r,
     actions: (
       <div className="flex gap-2 justify-center">
@@ -145,7 +151,7 @@ const handleAddReservation = (newRes) => {
           <FaTrashAlt size={16} />
         </button>
       </div>
-    )
+    ),
   }));
 
   return (
@@ -155,60 +161,66 @@ const handleAddReservation = (newRes) => {
 
         <div className="bg-white p-4 rounded-lg shadow-sm">
           {/* فلاتر البحث */}
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
-  <select
-    value={eventType}
-    onChange={e => setEventType(e.target.value)}
-    className="border h-[40px] outline-none px-3 rounded-lg text-sm w-full"
-  >
-    <option value="">كل المناسبات</option>
-    <option value="زفاف">زفاف</option>
-    <option value="تخرج">تخرج</option>
-    <option value="اجتماع">اجتماع</option>
-  </select>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
+            <CustomSelect
+              name="eventType"
+              value={eventType ? { value: eventType, label: eventType } : null}
+              onChange={(selected) => setEventType(selected ? selected.value : "")}
+              options={[
+                { value: "", label: "كل المناسبات" },
+                { value: "زفاف", label: "زفاف" },
+                { value: "تخرج", label: "تخرج" },
+                { value: "اجتماع", label: "اجتماع" },
+              ]}
+              placeholder="كل المناسبات"
+              className="text-sm"
+              
+            />
 
-  <input
-    type="text"
-    value={searchId}
-    onChange={e => setSearchId(e.target.value)}
-    placeholder="بحث برقم الحجز"
-    className="border h-[40px] outline-none px-3 rounded-lg text-sm w-full"
-  />
+            <input
+              type="text"
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+              placeholder="بحث برقم الحجز"
+              className="border h-[40px] outline-none px-3 rounded-lg text-sm w-full"
+            />
 
-  <select
-    value={owner}
-    onChange={e => setOwner(e.target.value)}
-    className="border h-[40px] outline-none px-3 rounded-lg text-sm w-full"
-  >
-    <option value="">اختر كواكب التقنية</option>
-    <option value="نبيل 1">نبيل 1</option>
-    <option value="نبيل 2">نبيل 2</option>
-  </select>
+            <CustomSelect
+              name="owner"
+              value={owner ? { value: owner, label: owner } : null}
+              onChange={(selected) => setOwner(selected ? selected.value : "")}
+              options={[
+                { value: "", label: "اختر كواكب التقنية" },
+                { value: "نبيل 1", label: "نبيل 1" },
+                { value: "نبيل 2", label: "نبيل 2" },
+              ]}
+              placeholder="اختر كواكب التقنية"
+              className="text-sm"
+            />
 
-  {/* التاريخ ياخد عمودين */}
-  <div className="flex gap-2 col-span-2">
-    <input
-      type="date"
-      value={dateFrom}
-      onChange={e => setDateFrom(e.target.value)}
-      className="border h-[40px] outline-none px-2 rounded-lg text-sm w-full"
-    />
-    <input
-      type="date"
-      value={dateTo}
-      onChange={e => setDateTo(e.target.value)}
-      className="border h-[40px] outline-none px-2 rounded-lg text-sm w-full"
-    />
-  </div>
+            {/* التاريخ ياخد عمودين */}
+            <div className="flex gap-2 col-span-2">
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="border h-[40px] outline-none px-2 rounded-lg text-sm w-full"
+              />
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="border h-[40px] outline-none px-2 rounded-lg text-sm w-full"
+              />
+            </div>
 
-  <button
-    onClick={() => setAddModalOpen(true)}
-    className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
-  >
-    + إضافة حجز
-  </button>
-</div>
-
+            <button
+              onClick={() => setAddModalOpen(true)}
+              className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
+            >
+              إضافة حجز  +
+            </button>
+          </div>
 
           <Table columns={columns} data={dataWithActions} />
         </div>
@@ -229,12 +241,13 @@ const handleAddReservation = (newRes) => {
         reservation={selectedReservation}
         onDelete={handleDeleteReservation}
       />
-      <AddReservationModal
-  isOpen={isAddModalOpen}
-  onClose={() => setAddModalOpen(false)}
-  onAdd={handleAddReservation}
-/>
 
+      {/* مودال الإضافة */}
+      <AddReservationModal
+        isOpen={isAddModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onAdd={handleAddReservation}
+      />
     </Container>
   );
 };

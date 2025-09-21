@@ -12,6 +12,8 @@ const ToolBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+const [showMessagesDropdown, setShowMessagesDropdown] = useState(false);
+const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
@@ -47,21 +49,33 @@ const ToolBar = () => {
                 {showDropdown && (
                   <ul className="absolute top-full right-0 bg-white shadow-md rounded w-52 py-2 z-50">
                     <li><Link to="/settings" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">الأعدادات</Link></li>
-                    <li><Link to="/ar/administration/transferred-patients" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">التحكم بالواجهة</Link></li>
-                    <li><Link to="/ar/administration/treatment-plans" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">أنواع المناسبات</Link></li>
-                    <li><Link to="/ar/administration/patient_groups" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">الخدمات</Link></li>
-                    <li><Link to="/ar/administration/offers" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">رسائل تواصل معنا</Link></li>
+                    <li><Link to="/landing-control" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">التحكم بالواجهة</Link></li>
+                    <li><Link to="/occasions" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">أنواع المناسبات</Link></li>
+                    <li><Link to="/services" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">الخدمات</Link></li>
+                    <li><Link to="contact-messages" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">رسائل تواصل معنا</Link></li>
                   </ul>
                 )}
               </li>
+            <li
+  className="relative"
+  onMouseEnter={() => setShowMessagesDropdown(true)}
+  onMouseLeave={() => setShowMessagesDropdown(false)}
+>
+  <a href="#" className='text-sm whitespace-nowrap text-white flex items-center gap-1'>
+    اعدادات الرسائل <FaMessage className='mt-1' />
+    <FaChevronDown size={10} />
+  </a>
+  {showMessagesDropdown && (
+    <ul className="absolute top-full right-0 bg-white shadow-md rounded w-52 py-2 z-50">
+      <li><Link to="/messages-settings" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">أعدادات الرسائل</Link></li>
+      <li><Link to="/sending-marketing-messages" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">أرسال رسائل تسويقية</Link></li>
+      <li><Link to="/whatsapp-settings" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">أعدادات الواتساب</Link></li>
+    </ul>
+  )}
+</li>
+
               <li>
-                <Link to="/ar/accounting" className='text-sm whitespace-nowrap text-white flex items-center gap-1'>
-                  <span>اعدادات الرسائل</span>
-                  <FaMessage className='mt-1' />
-                </Link>
-              </li>
-              <li>
-                <Link to="/ar/appointments-transferred" className='text-sm whitespace-nowrap text-white'>إعدادات SMS</Link>
+                <Link to="/messages-settings" className='text-sm whitespace-nowrap text-white'>إعدادات SMS</Link>
               </li>
             </ul>
 
@@ -77,53 +91,170 @@ const ToolBar = () => {
 
               {/* Small Screen: Left Icons Only */}
               <li className="lg:hidden">
-                <a href="#" className='text-white'><IoNotifications className='text-xl' /></a>
+                <a href="#" className="text-sm text-white relative">
+    <IoNotifications className="text-xl" />
+    <span className="absolute -top-3 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+      3
+    </span>
+  </a>
               </li>
-              <li className="lg:hidden bg-blue-500 w-7 h-7 rounded-sm flex items-center justify-center">
-                <a href="#" className='text-white'><FaPager className='text-xl' /></a>
+              <li className="lg:hidden bg-[#0dcaf0] w-7 h-7 rounded-sm flex items-center justify-center">
+                <a href="https://ta2geer-3.const-tech.in/ar" target='_blank' className='text-white'><FaPager className='text-xl' /></a>
               </li>
               <li className="lg:hidden flex items-center gap-2 text-sm whitespace-nowrap">
                 <FaCircleUser className='w-7 h-7 text-white' />
               </li>
+              
 
-              {/* Large Screen Icons */}
               <li className="hidden lg:block">
-                <a href="#" className='text-sm text-white'><IoNotifications className='text-xl' /></a>
+                <Link to="/program-additions" className='text-sm text-white font-semibold'>دليل المستخدم</Link>
               </li>
-              <li className="hidden lg:block bg-blue-500 w-7 h-7 rounded-sm lg:flex items-center justify-center">
-                <a href="#" className='text-sm text-white'><FaPager className='text-xl' /></a>
+             <li className="hidden lg:block relative">
+  <Link to = '/notifications' className="text-sm text-white relative">
+    <IoNotifications className="text-xl" />
+    <span className="absolute -top-3 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+      3
+    </span>
+  </Link>
+</li>
+
+              
+              <li className="hidden  bg-[#0dcaf0] w-7 h-7 rounded-sm lg:flex items-center justify-center">
+                <a href="https://ta2geer-3.const-tech.in/ar" target='_blank' className='text-sm text-white'><FaPager className='text-xl' /></a>
               </li>
-              <li className="hidden lg:flex items-center gap-2 text-sm whitespace-nowrap">
-                <FaCircleUser className='w-7 h-7 text-white' />
-                <span className='text-white'>ادارة القاعات/ الأستاذ نبيل</span>
-                <FaChevronDown className='text-white' />
-              </li>
+            <li 
+  className="hidden lg:flex items-center gap-2 text-sm whitespace-nowrap relative"
+  onMouseEnter={() => setShowUserDropdown(true)}
+  onMouseLeave={() => setShowUserDropdown(false)}
+>
+  <FaCircleUser className='w-7 h-7 text-white' />
+  <span className='text-white'>ادارة القاعات/ الأستاذ نبيل</span>
+  <FaChevronDown className='text-white' />
+
+  {showUserDropdown && (
+    <ul className="absolute top-full right-0 bg-white shadow-md rounded w-52 py-2 z-50">
+      {/* <li>
+        <Link to="/profile" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">الملف الشخصي</Link>
+      </li> */}
+      <li>
+        <Link to="/logout" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">تسجيل الخروج</Link>
+      </li>
+    </ul>
+  )}
+</li>
+
             </ul>
           </div>
         </div>
       </Container>
 
-      {/* Mobile Side Menu */}
-      <div className={`fixed top-0 right-0 h-full w-72 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${showMenu ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}>
-        <div className="flex justify-end p-4">
-          <button onClick={toggleMenu} className="text-black text-2xl">
-            &times;
-          </button>
-        </div>
-        <ul className="flex flex-col gap-4 px-5 pb-4 text-black text-sm">
-          <li><Link to="/settings">الإعدادات</Link></li>
-          <li><Link to="/ar/administration/transferred-patients">التحكم بالواجهة</Link></li>
-          <li><Link to="/ar/administration/treatment-plans">أنواع المناسبات</Link></li>
-          <li><Link to="/ar/administration/patient_groups">الخدمات</Link></li>
-          <li><Link to="/ar/administration/offers">رسائل تواصل معنا</Link></li>
-          <li><Link to="/ar/accounting">التقارير المحاسبية</Link></li>
-          <li><Link to="/ar/appointments-transferred">المرضى المحولين</Link></li>
-          <li><Link to="/ar/consultations">الاستشارات</Link></li>
-          <li><Link to="/ar/guides">الدليل الإرشادي</Link></li>
-          <li><Link to="/ar/program-additions">إضافات البرنامج</Link></li>
-          <li><Link to="/ar/services">الخدمات</Link></li>
-        </ul>
-      </div>
+     {/* Mobile Side Menu */}
+<div
+  className={`fixed top-0 right-0 h-full w-72 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${showMenu ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}
+>
+  {/* Close Button */}
+  <div className="flex justify-end p-4 border-b border-gray-200">
+    <button
+      onClick={toggleMenu}
+      className="text-black text-3xl font-bold hover:text-gray-600 transition-colors"
+    >
+      &times;
+    </button>
+  </div>
+
+  {/* Menu Links */}
+  <ul className="flex flex-col gap-2 px-5 py-6 text-black text-sm">
+    <li>
+      <Link
+        to="/settings"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        الإعدادات
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/administration/transferred-patients"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        التحكم بالواجهة
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/administration/treatment-plans"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        أنواع المناسبات
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/administration/patient_groups"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        الخدمات
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/administration/offers"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        رسائل تواصل معنا
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/accounting"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        التقارير المحاسبية
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/appointments-transferred"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        المرضى المحولين
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/consultations"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        الاستشارات
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/guides"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        الدليل الإرشادي
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/program-additions"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        إضافات البرنامج
+      </Link>
+    </li>
+    <li>
+      <Link
+        to="/ar/services"
+        className="block px-4 py-2 rounded hover:bg-gray-100 transition-colors"
+      >
+        الخدمات
+      </Link>
+    </li>
+  </ul>
+</div>
+
 
       {/* Backdrop when menu is open */}
       {showMenu && (
