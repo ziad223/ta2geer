@@ -29,7 +29,7 @@ const Login = () => {
       <div className="relative h-[300px] lg:h-screen w-full lg:w-1/2">
         <img src={loginBg} alt="bg" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-[#09adce]/40"></div>
-        <div className="absolute inset-0 text-white p-6 lg:p-20 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
+        <div className="absolute inset-0 text-white p-6 lg:p-20 flex flex-col justify-center items-center lg:items-start text-center lg:text-right">
           <img src={loginLogo} alt="loginLogo" className="w-[120px] h-[100px] lg:w-[160px] lg:h-[130px]" />
           <div className="mt-5">
             <h1 className="text-xl lg:text-[40px] font-bold mb-4 leading-[35px] lg:leading-[55px]">
