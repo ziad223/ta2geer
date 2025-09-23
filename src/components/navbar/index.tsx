@@ -31,7 +31,7 @@ const Navbar = () => {
               <FiMenu />
             </button>
           </div>
-          <ul className={`flex flex-col lg:flex-row gap-4 mt-4 lg:mt-0 ${menuOpen ? 'block' : 'hidden'} lg:flex justify-center items-center`}>
+          <ul className={`flex flex-col lg:flex-row gap-5 mt-4 lg:mt-0 ${menuOpen ? 'block' : 'hidden'} lg:flex justify-center items-center`}>
             <li>
               <Link to="/" className='text-black hover:text-[#09adce] transition duration-300 flex items-center gap-1 text-sm '>
                  الرئيسية <IoMdHome className='text-gray-500' size={20} />
@@ -62,11 +62,7 @@ const Navbar = () => {
                 الفواتير المبسطة <FaMoneyBill  className='text-gray-500' size={18}  />
               </Link>
             </li>
-            <li>
-              <Link to="/ar/invoices" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
-                الفواتير <LiaFileInvoiceSolid className='text-gray-500' size={18}  />
-              </Link>
-            </li>
+            
             <li>
               <Link to="/ar/pay-visit" className='text-black hover:text-[#09adce] transition duration-300  flex items-center gap-1 text-sm'>
                  التقارير والمحاسبة <FaBarsProgress  className='text-gray-500' size={18}  />
@@ -84,7 +80,7 @@ const Navbar = () => {
               </Link>
             </li>
               <li>
-              <button className='text-white flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg relative'>
+              <Link to ='/reservations' className='text-white flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg relative'>
   <div className="relative">
     <IoMdNotifications size={20} />
     {/* Badge */}
@@ -93,16 +89,16 @@ const Navbar = () => {
     </span>
   </div>
   <span>حجوزات الزوار</span>
-</button>
+</Link>
 
 
               
             </li>
              <li>
-              <button className='text-white  flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg'>
+              <Link to ='/reservations' className='text-white  flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg'>
                  <FaCalendar/>
                  <span>جدول الحجوزات</span>
-              </button>
+              </Link>
               
             </li>
           </ul>

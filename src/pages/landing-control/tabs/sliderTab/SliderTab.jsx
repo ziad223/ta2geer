@@ -3,6 +3,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Table from "../../../../components/shared/Table";
 import AddSliderModal from "./AddSliderModal";
 import EditSliderModal from "../servicesTab/EditSliderModal";
+import DeleteSliderModal from './DeleteSliderModal'
 const SliderTab = () => {
   const [sliders, setSliders] = useState([
     {

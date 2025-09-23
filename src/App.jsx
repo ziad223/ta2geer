@@ -32,6 +32,9 @@ import Clients from './pages/clients/Clients';
 import NewInvoices from './pages/new-invoices/NewInvoices';
 import PhotoGallery from './pages/photo-gallery/PhotoGallery';
 import Alerts from './pages/alerts/Alerts';
+import Login from './pages/login/Login';
+import VisitorsReservations from './pages/visitrors-reservations/VisitorsReservations';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const App = () => {
@@ -52,33 +55,34 @@ const App = () => {
       <Suspense
         fallback={ <Loader/> }  >
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/add-client' element={<AddClient />} />
-          <Route path='/reservations' element={<Reservations />} />
-          <Route path='/invoices' element={<Invoices />} />
-          <Route path='/settings' element={<Settings />} />
-          <Route path='/settings/employees' element={<Employees />} />
-          <Route path='/settings/sections' element={<Sections />} />
-          <Route path='/settings/pay-ways' element={<PayWays />} />
-          <Route path='/settings/privacy-policy' element={<PrivacyPolicy />} />
-          <Route path='/landing-control' element={<LandingControl />} />
-          <Route path='/occasions' element={<Occasions />} />
-          <Route path='/halls' element={<Halls />} />
-          <Route path='/services' element={<Services />} />
-          <Route path='/services/offers' element={<Offers />} />
-          <Route path='/services/categories' element={<Categories />} />
-          <Route path='/services/units' element={<Units />} />
-          <Route path='/contact-messages' element={<ContactMessages />} />
-          <Route path='/messages-settings' element={<MessagesSettings />} />
-          <Route path='/sending-marketing-messages' element={<SendingMarketingMessages />} />
-          <Route path='/whatsapp-settings' element={<WhatsappSettings />} />
-          <Route path='/program-additions' element={<ProgramAdditions />} />
-          <Route path='/notifications' element={<Notifications />} />
-          <Route path='/clients' element={<Clients />} />
-          <Route path='/new-invoices' element={<NewInvoices />} />
-          <Route path='/photo-gallery' element={<PhotoGallery />} />
-          <Route path='/alerts' element={<Alerts />} />
-
+          <Route path='/login' element={<Login />} />
+           <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+  <Route path='/add-client' element={<ProtectedRoute><AddClient /></ProtectedRoute>} />
+  <Route path='/reservations' element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
+  <Route path='/visitor-reservations' element={<ProtectedRoute><VisitorsReservations /></ProtectedRoute>} />
+  <Route path='/invoices' element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
+  <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+  <Route path='/settings/employees' element={<ProtectedRoute><Employees /></ProtectedRoute>} />
+  <Route path='/settings/sections' element={<ProtectedRoute><Sections /></ProtectedRoute>} />
+  <Route path='/settings/pay-ways' element={<ProtectedRoute><PayWays /></ProtectedRoute>} />
+  <Route path='/settings/privacy-policy' element={<ProtectedRoute><PrivacyPolicy /></ProtectedRoute>} />
+  <Route path='/landing-control' element={<ProtectedRoute><LandingControl /></ProtectedRoute>} />
+  <Route path='/occasions' element={<ProtectedRoute><Occasions /></ProtectedRoute>} />
+  <Route path='/halls' element={<ProtectedRoute><Halls /></ProtectedRoute>} />
+  <Route path='/services' element={<ProtectedRoute><Services /></ProtectedRoute>} />
+  <Route path='/services/offers' element={<ProtectedRoute><Offers /></ProtectedRoute>} />
+  <Route path='/services/categories' element={<ProtectedRoute><Categories /></ProtectedRoute>} />
+  <Route path='/services/units' element={<ProtectedRoute><Units /></ProtectedRoute>} />
+  <Route path='/contact-messages' element={<ProtectedRoute><ContactMessages /></ProtectedRoute>} />
+  <Route path='/messages-settings' element={<ProtectedRoute><MessagesSettings /></ProtectedRoute>} />
+  <Route path='/sending-marketing-messages' element={<ProtectedRoute><SendingMarketingMessages /></ProtectedRoute>} />
+  <Route path='/whatsapp-settings' element={<ProtectedRoute><WhatsappSettings /></ProtectedRoute>} />
+  <Route path='/program-additions' element={<ProtectedRoute><ProgramAdditions /></ProtectedRoute>} />
+  <Route path='/notifications' element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+  <Route path='/clients' element={<ProtectedRoute><Clients /></ProtectedRoute>} />
+  <Route path='/new-invoices' element={<ProtectedRoute><NewInvoices /></ProtectedRoute>} />
+  <Route path='/photo-gallery' element={<ProtectedRoute><PhotoGallery /></ProtectedRoute>} />
+  <Route path='/alerts' element={<ProtectedRoute><Alerts /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       <Footer/>

@@ -222,12 +222,11 @@ const paymentMethodOptions = useMemo(() => [
     rows="3"
     className="border p-3 rounded-lg w-full"
   />
-  <button className='bg-green-600 rounded-lg text-white text-xl hover:bg-green-500 '>
+
+</div>
+  <button className='bg-green-600 lg:mt-10 mt-5  lg:w-[300px] w-full h-[50px] rounded-lg text-white text-xl hover:bg-green-500 '>
     حفظ
   </button>
-</div>
-
-
         </div>
       </div>
 
