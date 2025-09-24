@@ -12,12 +12,12 @@ const HomeCard = () => {
             <span className="font-semibold text-sm sm:text-base">أضافة عميل</span>
           </Link>
 
-          <div className="bg-white shadow-md flex flex-col gap-2 hover:scale-105 transition duration-300 cursor-pointer sm:gap-3 rounded-lg h-[100px] lg:h-[120px] items-center justify-center">
+          <Link to='/new-booking' className="bg-white shadow-md flex flex-col gap-2 hover:scale-105 transition duration-300 cursor-pointer sm:gap-3 rounded-lg h-[100px] lg:h-[120px] items-center justify-center">
             <div className="bg-[#f4f9ff] w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] rounded-lg flex items-center justify-center">
               <FaBookOpen size={18} className="text-[#91c2f9]" />
             </div>
             <span className="font-semibold text-sm sm:text-base">حجز جديد</span>
-          </div>
+          </Link>
 
           <Link  to = '/reservations' className="bg-white shadow-md flex flex-col gap-2 sm:gap-3 hover:scale-105 transition duration-300 cursor-pointer rounded-lg h-[100px] lg:h-[120px] items-center justify-center">
             <div className="bg-[#eff6e6] w-[35px] h-[35px] sm:w-[40px] sm:h-[40px] rounded-lg flex items-center justify-center">

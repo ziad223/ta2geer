@@ -35,6 +35,8 @@ import Alerts from './pages/alerts/Alerts';
 import Login from './pages/login/Login';
 import VisitorsReservations from './pages/visitrors-reservations/VisitorsReservations';
 import ProtectedRoute from './components/ProtectedRoute';
+import Reports from './pages/reports/Reports';
+import BookingPage from './pages/new-booking/BookingPage';
 
 
 const App = () => {
@@ -83,6 +85,8 @@ const App = () => {
   <Route path='/new-invoices' element={<ProtectedRoute><NewInvoices /></ProtectedRoute>} />
   <Route path='/photo-gallery' element={<ProtectedRoute><PhotoGallery /></ProtectedRoute>} />
   <Route path='/alerts' element={<ProtectedRoute><Alerts /></ProtectedRoute>} />
+  <Route path='/reports' element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+  <Route path='/new-booking' element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       <Footer/>
