@@ -7,8 +7,10 @@ import { Link } from 'react-router-dom';
 import LanguageSelector from './LanguageSelector';
 import { FaPager } from 'react-icons/fa';
 import Container from '../shared/Container';
+import { useNavigate } from "react-router-dom";
 
 const ToolBar = () => {
+
   const [showMenu, setShowMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -24,6 +26,13 @@ const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const formattedDate = currentTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
   const formattedTime = currentTime.toLocaleTimeString('en-US', { hour12: true });
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login"); 
+  };
 
   return (
     <div className='bg-[#09adce] relative z-50'>
@@ -137,8 +146,12 @@ const [showUserDropdown, setShowUserDropdown] = useState(false);
         <Link to="/profile" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">الملف الشخصي</Link>
       </li> */}
       <li>
-        <Link to="/logout" className="block px-4 py-2 text-sm text-black hover:bg-gray-100">تسجيل الخروج</Link>
-      </li>
+ <button
+      onClick={handleLogout}
+      className="block px-4 py-2 text-sm text-black hover:bg-gray-100"
+    >
+      تسجيل الخروج
+    </button>      </li>
     </ul>
   )}
 </li>
