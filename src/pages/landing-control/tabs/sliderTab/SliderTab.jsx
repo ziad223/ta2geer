@@ -2,8 +2,9 @@ import React, { useState, useMemo } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Table from "../../../../components/shared/Table";
 import AddSliderModal from "./AddSliderModal";
-import EditSliderModal from "../servicesTab/EditSliderModal";
-import DeleteSliderModal from './DeleteSliderModal'
+import EditSliderModal from "./EditSliderModal";
+import DeleteSliderModal from "./DeleteSliderModal";
+
 const SliderTab = () => {
   const [sliders, setSliders] = useState([
     {
@@ -38,7 +39,7 @@ const SliderTab = () => {
         <img
           src={row.image}
           alt={row.title}
-          className="w-16 h-16 object-cover rounded"
+          className="w-16 h-16 object-cover rounded mx-auto"
         />
       ),
     },
@@ -48,9 +49,7 @@ const SliderTab = () => {
   // فلترة حسب العنوان
   const filteredSliders = useMemo(() => {
     if (!searchTerm.trim()) return sliders;
-    return sliders.filter((s) =>
-      s.title.includes(searchTerm.trim())
-    );
+    return sliders.filter((s) => s.title.includes(searchTerm.trim()));
   }, [searchTerm, sliders]);
 
   // إضافة أزرار التحكم
@@ -104,8 +103,8 @@ const SliderTab = () => {
   };
 
   return (
-    <div className=" min-h-screen">
-      <div className="bg-white shadow-sm p-5 rounded-lg">
+    <div className="min-h-screen">
+      <div className="bg-white shadow-sm  rounded-lg">
         <button
           onClick={() => setAddModalOpen(true)}
           className="bg-[#2ba670] px-4 h-[40px] text-white rounded-md w-full md:w-auto"
@@ -118,6 +117,7 @@ const SliderTab = () => {
         </div>
       </div>
 
+      {/* مودال الإضافة */}
       {isAddModalOpen && (
         <AddSliderModal
           onClose={() => setAddModalOpen(false)}
@@ -133,6 +133,7 @@ const SliderTab = () => {
         />
       )}
 
+      {/* مودال الحذف */}
       {isDeleteModalOpen && selectedSlider && (
         <DeleteSliderModal
           onClose={() => setDeleteModalOpen(false)}

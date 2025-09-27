@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import Container from '../../components/shared/Container';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaBuffer, FaCreditCard, FaEdit, FaTrashAlt, FaUsers, FaUserShield } from 'react-icons/fa';
 import Table from '../../components/shared/Table';
 import AddEmployeeModal from './AddEmployeeModal';
 import EditEmployeeModal from './EditEmployeeModal';
 import DeleteEmployeeModal from './DeleteEmployeeModal';
+import { Link } from 'react-router-dom';
 
 const Sections = () => {
   const [clients, setClients] = useState([
@@ -104,8 +105,27 @@ const Sections = () => {
   return (
     <Container>
       <div className="p-4 min-h-screen">
-        <h2 className="text-xl font-bold mb-4">الأقسام</h2>
-
+<div className='flex items-center flex-col lg:flex-row  justify-between w-full my-10 '>
+        <h2 className="text-xl font-bold">الأقسام</h2>
+         <div className='flex items-center gap-2 flex-col lg:flex-row'>
+            <Link to='/settings/employees' className='flex items-center  gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
+                <span>الموظفين</span>
+                <FaUsers/>
+            </Link>
+             <Link to = '/settings/sections' className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
+                <span>الأقسام</span>
+                <FaBuffer/>
+            </Link>
+            <Link to='/settings/privacy-policy' className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
+                <span>سياسة الخصوصية</span>
+                <FaUserShield/>
+            </Link>
+            <Link to='/settings/pay-ways' className='flex items-center gap-2 px-3 h-[35px] rounded-lg bg-[#17a2b8] text-white'>
+                <span>طرق الدفع</span>
+                <FaCreditCard/>
+            </Link>
+          </div>
+          </div>
         <div className="bg-white mt-5 shadow-sm p-5 rounded-lg">
           <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3 md:gap-0">
             <input

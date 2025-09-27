@@ -3,7 +3,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Table from "../../../../components/shared/Table";
 import AddServiceModal from "./AddServiceModal";
 import EditServiceModal from "./EditServiceModal";
-import DeleteServiceModal from "../sliderTab/DeleteServiceModal";
+import DeleteServiceModal from "./DeleteServiceModal";
 
 const ServicesTab = () => {
   const [services, setServices] = useState([
@@ -32,7 +32,7 @@ const ServicesTab = () => {
       label: "الصورة",
       key: "image",
       render: (row) => (
-        <img src={row.image} alt={row.name} className="w-16 h-16 object-cover rounded-md" />
+        <img src={row.image} alt={row.name} className="w-16 h-16 mx-auto object-cover rounded-md" />
       ),
     },
     { label: "الإجراءات", key: "actions" },

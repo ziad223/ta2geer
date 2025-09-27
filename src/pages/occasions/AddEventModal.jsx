@@ -40,7 +40,7 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             required
           />
 
-          {/* CustomSelect بدل select */}
+          {/* CustomSelect بدل select
           <CustomSelect
             options={statusOptions}
             value={
@@ -52,8 +52,8 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             placeholder="اختر الحالة"
             name="status"
             className="w-full"
-          />
-
+          /> */}
+{/* 
           <input
             type="number"
             name="bookings"
@@ -61,7 +61,7 @@ const AddEventModal = ({ isOpen, onClose, onAdd }) => {
             value={form.bookings}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
-          />
+          /> */}
 
           <div className="flex justify-end gap-2">
             <button

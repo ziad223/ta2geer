@@ -45,7 +45,7 @@ const EditReservationModal = ({ isOpen, onClose, onSave, reservation }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg w-full max-w-xl">
+      <div className="bg-white shadow-xl p-6 rounded-lg w-full max-w-xl">
         <h3 className="text-lg font-semibold mb-4">تعديل الحجز</h3>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input

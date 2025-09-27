@@ -1,52 +1,120 @@
-import React, { useState } from 'react';
+// AddClientModal.jsx
+import React, { useState } from "react";
 
 const AddClientModal = ({ isOpen, onClose, onAdd }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    nationalId: '',
-    phone: '',
-    altPhone: '',
-    createdAt: '',
-    hall: '',
+  const [form, setForm] = useState({
+    name: "",
+    nationalId: "",
+    phone: "",
+    altPhone: "",
+    hall: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAdd(formData);
-    setFormData({
-      name: '',
-      nationalId: '',
-      phone: '',
-      altPhone: '',
-      createdAt: '',
-      hall: '',
-    });
-    onClose();
-  };
 
   if (!isOpen) return null;
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    if (!form.name.trim() || !form.phone.trim()) {
+      return alert("من فضلك أدخل الاسم ورقم الجوال");
+    }
+    onAdd(form);
+    onClose();
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full max-w-md">
-        <h3 className="text-lg font-bold mb-4">إضافة عميل جديد</h3>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <input name="name" value={formData.name} onChange={handleChange} placeholder="الاسم" className="border p-2 rounded" required />
-          <input name="nationalId" value={formData.nationalId} onChange={handleChange} placeholder="رقم هوية العميل" className="border p-2 rounded" required />
-          <input name="phone" value={formData.phone} onChange={handleChange} placeholder="الجوال" className="border p-2 rounded" required />
-          <input name="altPhone" value={formData.altPhone} onChange={handleChange} placeholder="رقم جوال آخر" className="border p-2 rounded" />
-          <input name="createdAt" type="date" value={formData.createdAt} onChange={handleChange} placeholder="تاريخ الإضافة" className="border p-2 rounded" required />
-          <input name="hall" value={formData.hall} onChange={handleChange} placeholder="القاعة" className="border p-2 rounded" required />
-          <div className="flex justify-end gap-3 mt-4">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded bg-gray-300">إلغاء</button>
-            <button type="submit" className="px-4 py-2 rounded bg-green-600 text-white">إضافة</button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+      <div className="bg-white p-6 rounded-md w-full max-w-lg">
+        <h2 className="text-lg font-bold mb-4">إضافة عميل</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="name" className="text-sm font-semibold text-gray-700">
+              الاسم
+            </label>
+            <input
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="border px-3 py-2 rounded-md w-full"
+              placeholder="اسم العميل"
+            />
           </div>
-        </form>
+
+          <div>
+            <label htmlFor="nationalId" className="text-sm font-semibold text-gray-700">
+              رقم الهوية
+            </label>
+            <input
+              id="nationalId"
+              name="nationalId"
+              value={form.nationalId}
+              onChange={handleChange}
+              className="border px-3 py-2 rounded-md w-full"
+              placeholder="رقم هوية العميل"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="phone" className="text-sm font-semibold text-gray-700">
+              الجوال
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              className="border px-3 py-2 rounded-md w-full"
+              placeholder="الجوال"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="altPhone" className="text-sm font-semibold text-gray-700">
+              رقم جوال آخر
+            </label>
+            <input
+              id="altPhone"
+              name="altPhone"
+              value={form.altPhone}
+              onChange={handleChange}
+              className="border px-3 py-2 rounded-md w-full"
+              placeholder="رقم جوال آخر"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label htmlFor="hall" className="text-sm font-semibold text-gray-700">
+              القاعة
+            </label>
+            <input
+              id="hall"
+              name="hall"
+              value={form.hall}
+              onChange={handleChange}
+              className="border px-3 py-2 rounded-md w-full"
+              placeholder="اسم القاعة"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2 mt-6">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-400 text-white rounded-md"
+          >
+            إلغاء
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md"
+          >
+            إضافة
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const Home = () => {
       <div className="mt-14 min-h-screen">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h1 className="text-black text-2xl font-bold">برنامج ادارة القاعات</h1>
+          <h1 className="text-black text-xl font-bold">برنامج ادارة القاعات</h1>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 w-full sm:w-auto">
             {/* Today Reservations */}

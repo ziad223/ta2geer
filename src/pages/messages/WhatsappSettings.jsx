@@ -9,7 +9,7 @@ const WhatsappSettings = () => {
 
   return (
     <Container>
-      <div>
+      <div className="my-10">
         <h2 className="font-bold text-center text-lg mb-6">
           إعدادات الواتس اب للقاعات
         </h2>

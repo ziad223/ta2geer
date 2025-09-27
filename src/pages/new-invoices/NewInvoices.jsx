@@ -6,6 +6,7 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 import CustomSelect from '../../components/shared/CustomSelect';
+import AddInvoiceModal from './AddInvoiceModal';
 
 const NewInvoices = () => {
   const [invoiceSearch, setInvoiceSearch] = useState('');
@@ -53,6 +54,7 @@ const NewInvoices = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+const [isAddModalOpen, setAddModalOpen] = useState(false);
 
   const columns = [
     { label: "رقم الفاتورة", key: "id" },
@@ -127,10 +129,15 @@ const NewInvoices = () => {
   return (
     <Container>
       <div className="p-4 min-h-screen my-10">
-        <h2 className="text-xl font-bold mb-4">الفواتير الجديدة
-          
-        </h2>
-
+      <div className="flex items-center w-full justify-between">
+                <h2 className="text-xl font-bold mb-4">الفواتير الجديدة  </h2>
+            <button
+  onClick={() => setAddModalOpen(true)}
+  className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
+>
+  إضافة فاتورة +
+</button>
+      </div>
         <div className="bg-white p-4 rounded-lg shadow-sm">
           {/* فلاتر البحث */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 items-center">
@@ -203,6 +210,12 @@ const NewInvoices = () => {
           invoice={selectedInvoice}
           onDelete={handleDeleteInvoice}
         />
+        <AddInvoiceModal
+  isOpen={isAddModalOpen}
+  onClose={() => setAddModalOpen(false)}
+  onSave={(newInvoice) => setInvoices(prev => [...prev, newInvoice])}
+  clients={[...new Set(invoices.map(inv => inv.client))]} // قائمة العملاء المميزة
+/>
       </div>
     </Container>
   );

@@ -35,9 +35,9 @@ const [showUserDropdown, setShowUserDropdown] = useState(false);
   };
 
   return (
-    <div className='bg-[#09adce] relative z-50'>
+    <div className='bg-[#09adce] relative  z-50'>
       <Container>
-        <div className="flex items-center justify-between mx-auto px-5 py-2 lg:w-full">
+        <div className="flex items-center justify-between mx-auto px- p-1 lg:w-full">
 
           <button onClick={toggleMenu} className="text-white text-2xl lg:hidden">
             <FiMenu />

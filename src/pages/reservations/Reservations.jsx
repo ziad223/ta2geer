@@ -156,7 +156,7 @@ const Reservations = () => {
 
   return (
     <Container>
-      <div className="p-4 min-h-screen">
+      <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">الحجوزات</h2>
 
         <div className="bg-white p-4 rounded-lg shadow-sm">

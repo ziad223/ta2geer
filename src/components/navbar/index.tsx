@@ -25,7 +25,7 @@ const Navbar = () => {
       <ToolBar />
       
          <div className='bg-white '>
-        <div className='lg:w-full mx-auto px-5 py-4'>
+        <div className='lg:w-full mx-auto px- py-2'>
           <div className='flex justify-between items-center lg:hidden'>
             <button onClick={toggleMenu} className='text-2xl text-black'>
               <FiMenu />

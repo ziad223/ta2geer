@@ -6,11 +6,12 @@ import AddEventModal from "./AddEventModal";
 import EditEventModal from "./EditEventModal";
 import DeleteEventModal from "./DeleteEventModal";
 import { Link } from "react-router-dom";
+import SwitchToggle from "./SwitchToggle";
 
 const Occasions = () => {
   const [events, setEvents] = useState([
-    { id: 1, title: "حفل تخرج", status: "مفتوح", bookings: 12 },
-    { id: 2, title: "زفاف أحمد", status: "مغلق", bookings: 25 },
+    { id: 1, title: "حفل تخرج", status: true, bookings: 12 },
+    { id: 2, title: "زفاف أحمد", status: false, bookings: 25 },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +23,22 @@ const Occasions = () => {
   const columns = [
     { label: "#", key: "id" },
     { label: "اسم المناسبة", key: "title" },
-    { label: "الحالة", key: "status" },
+    {
+      label: "الحالة",
+      key: "status",
+      render: (row) => (
+        <SwitchToggle
+          enabled={row.status}
+          onChange={() =>
+            setEvents((prev) =>
+              prev.map((e) =>
+                e.id === row.id ? { ...e, status: !e.status } : e
+              )
+            )
+          }
+        />
+      ),
+    },
     { label: "الحجوزات", key: "bookings" },
     { label: "التحكم", key: "actions" },
   ];
@@ -65,7 +81,7 @@ const Occasions = () => {
   // إضافة مناسبة
   const handleAddEvent = (newEvent) => {
     const id = events.length ? events[events.length - 1].id + 1 : 1;
-    setEvents([...events, { ...newEvent, id }]);
+    setEvents([...events, { ...newEvent, id, status: true }]);
   };
 
   // تعديل مناسبة
@@ -94,21 +110,20 @@ const Occasions = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
             />
-           <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Link
-            to='/halls'
-              onClick={() => setAddModalOpen(true)}
-              className="bg-blue-600 hover:bg-blue-500 transition duration-300 px-5 flex items-center justify-center h-[35px] text-white rounded-md w-full md:w-auto"
-            >
-              القاعات
-            </Link>
-            <button
-              onClick={() => setAddModalOpen(true)}
-              className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md w-full md:w-auto"
-            >
-              أضف مناسبة +
-            </button>
-           </div>
+                to="/halls"
+                className="bg-blue-600 hover:bg-blue-500 transition duration-300 px-5 flex items-center justify-center h-[35px] text-white rounded-md w-full md:w-auto"
+              >
+                القاعات
+              </Link>
+              <button
+                onClick={() => setAddModalOpen(true)}
+                className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md w-full md:w-auto"
+              >
+                أضف مناسبة +
+              </button>
+            </div>
           </div>
 
           <Table columns={columns} data={dataWithActions} />

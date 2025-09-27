@@ -14,7 +14,7 @@ function Footer() {
             <img
               src={logo}
               alt="logo"
-              className="h-10 w-20"
+              className="h-10 w-32"
             />
           </a>
         </div>

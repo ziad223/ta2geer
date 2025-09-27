@@ -37,7 +37,7 @@ const PhotoGallery = () => {
       <img
         src={photo.image}
         alt="صورة"
-        className="w-full h-24 object-cover rounded"
+        className="w-[25%] mx-auto h-24 object-cover rounded"
       />
     ),
     actions: (

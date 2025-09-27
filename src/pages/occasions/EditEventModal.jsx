@@ -45,7 +45,7 @@ const EditEventModal = ({ isOpen, onClose, onUpdate, eventData }) => {
             required
           />
 
-          <CustomSelect
+          {/* <CustomSelect
             options={statusOptions}
             value={
               form.status
@@ -65,7 +65,7 @@ const EditEventModal = ({ isOpen, onClose, onUpdate, eventData }) => {
             value={form.bookings || ""}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2"
-          />
+          /> */}
 
           <div className="flex justify-end gap-2">
             <button

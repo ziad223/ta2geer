@@ -5,6 +5,7 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
 import CustomSelect from '../../components/shared/CustomSelect';
+import AddInvoiceModal from './AddInvoiceModal';
 
 const Invoices = () => {
   const [searchClientOrHall, setSearchClientOrHall] = useState('');
@@ -12,6 +13,7 @@ const Invoices = () => {
   const [dateTo, setDateTo] = useState('');
   const [paymentStatusFilter, setPaymentStatusFilter] = useState('');
   const [reservationStatusFilter, setReservationStatusFilter] = useState('');
+const [isAddModalOpen, setAddModalOpen] = useState(false);
 
   const [reservations, setReservations] = useState([
     {
@@ -198,76 +200,83 @@ const Invoices = () => {
   return (
     <Container>
       <div className="p-4 min-h-screen my-10">
-        <h2 className="text-xl font-bold mb-4">الفواتير</h2>
+ <div className="flex items-center w-full justify-between">
+                <h2 className="text-xl font-bold mb-4">الفواتير   </h2>
+            <button
+              onClick={() => setAddModalOpen(true)}
 
+  className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
+>
+  
+  إضافة فاتورة +
+</button>
+      </div>
         <div className="bg-white p-4 rounded-lg shadow-sm">
-          {/* فلاتر البحث */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
-  <input
-    type="text"
-    value={searchClientOrHall}
-    onChange={e => setSearchClientOrHall(e.target.value)}
-    placeholder="بحث عن عميل أو قاعة"
-    className="border h-[40px] px-3 rounded-lg text-sm w-full outline-none"
-  />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
+            <input
+              type="text"
+              value={searchClientOrHall}
+              onChange={e => setSearchClientOrHall(e.target.value)}
+              placeholder="بحث عن عميل أو قاعة"
+              className="border h-[40px] px-3 rounded-lg text-sm w-full outline-none"
+            />
 
-  <div className="flex gap-2 col-span-2">
-    <input
-      type="date"
-      value={dateFrom}
-      onChange={e => setDateFrom(e.target.value)}
-      className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
-    />
-    <input
-      type="date"
-      value={dateTo}
-      onChange={e => setDateTo(e.target.value)}
-      className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
-    />
-  </div>
+            <div className="flex gap-2 col-span-2">
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={e => setDateFrom(e.target.value)}
+                className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+              />
+              <input
+                type="date"
+                value={dateTo}
+                onChange={e => setDateTo(e.target.value)}
+                className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+              />
+            </div>
 
-  <CustomSelect
-    value={
-      paymentStatusFilter
-        ? { label: paymentStatusFilter, value: paymentStatusFilter }
-        : null
-    }
-    onChange={(selected) =>
-      setPaymentStatusFilter(selected ? selected.value : "")
-    }
-    options={[
-      { value: "", label: "كل حالات الفاتورة" },
-      { value: "مدفوعة", label: "مدفوعة" },
-      { value: "مدفوعة جزئيا", label: "مدفوعة جزئيا" },
-      { value: "غير مدفوعة", label: "غير مدفوعة" },
-    ]}
-    className="text-sm w-full md:w-[200px]"
-    placeholder="كل حالات الفاتورة"
-  />
+            <CustomSelect
+              value={
+                paymentStatusFilter
+                  ? { label: paymentStatusFilter, value: paymentStatusFilter }
+                  : null
+              }
+              onChange={(selected) =>
+                setPaymentStatusFilter(selected ? selected.value : "")
+              }
+              options={[
+                { value: "", label: "كل حالات الفاتورة" },
+                { value: "مدفوعة", label: "مدفوعة" },
+                { value: "مدفوعة جزئيا", label: "مدفوعة جزئيا" },
+                { value: "غير مدفوعة", label: "غير مدفوعة" },
+              ]}
+              className="text-sm w-full md:w-[200px]"
+              placeholder="كل حالات الفاتورة"
+            />
 
-  <CustomSelect
-    value={
-      reservationStatusFilter
-        ? {
-            label: reservationStatusFilter,
-            value: reservationStatusFilter,
-          }
-        : null
-    }
-    onChange={(selected) =>
-      setReservationStatusFilter(selected ? selected.value : "")
-    }
-    options={[
-      { value: "", label: "كل حالات الحجز" },
-      { value: "مؤكد", label: "مؤكد" },
-      { value: "ملغي", label: "ملغي" },
-      { value: "قيد الانتظار", label: "قيد الانتظار" },
-    ]}
-    className="text-sm w-full md:w-[200px]"
-    placeholder="كل حالات الحجز"
-  />
-</div>
-
+           <div className='lg:mr-[25px]'>
+             <CustomSelect
+              value={
+                reservationStatusFilter
+                  ? { label: reservationStatusFilter, value: reservationStatusFilter }
+                  : null
+              }
+              onChange={(selected) =>
+                setReservationStatusFilter(selected ? selected.value : "")
+              }
+              options={[
+                { value: "", label: "كل حالات الحجز" },
+                { value: "مؤكد", label: "مؤكد" },
+                { value: "ملغي", label: "ملغي" },
+                { value: "قيد الانتظار", label: "قيد الانتظار" },
+              ]}
+              className="text-sm w-full md:w-[200px] ml-3" // المسافة بين السيلكتين
+              placeholder="كل حالات الحجز"
+            />
+           </div>
+           
+          </div>
 
           {/* جدول الحجوزات */}
           <Table columns={columns} data={dataWithActions} />
@@ -288,10 +297,19 @@ const Invoices = () => {
           reservation={selectedReservation}
           onDelete={handleDeleteReservation}
         />
+        <AddInvoiceModal
+  isOpen={isAddModalOpen}
+  onClose={() => setAddModalOpen(false)}
+  onSave={(newReservation) => 
+    setReservations(prev => [...prev, { ...newReservation, id: prev.length + 1 }])
+  }
+  clients={[...new Set(reservations.map(r => r.client))]}
+  halls={[...new Set(reservations.map(r => r.hall))]}
+/>
+
       </div>
     </Container>
   );
 };
 
 export default Invoices;
-

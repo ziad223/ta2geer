@@ -52,10 +52,10 @@ const BookingIterms = () => {
   return (
     <div className="p-6 min-h-screen bg-gray-50">
       <h2 className="text-xl font-bold mb-4 text-gray-800">
-        ✍️ سياسة الخصوصية
+        سياسة الخصوصية
       </h2>
 
-      <div className="bg-white shadow-md p-5 rounded-lg">
+      <div className="bg-white shadow-md  rounded-lg">
         <ReactQuill
           theme="snow"
           value={content}
@@ -70,7 +70,7 @@ const BookingIterms = () => {
         onClick={handleSave}
         className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition"
       >
-        💾 حفظ
+         حفظ
       </button>
     </div>
   );

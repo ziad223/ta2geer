@@ -79,146 +79,205 @@ const AddReservationModal = ({ isOpen, onClose, onAdd }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-      <div className="bg-white w-full max-w-3xl p-6 rounded-lg shadow-md max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-5xl p-6 rounded-lg shadow-md max-h-[90vh] overflow-y-auto">
         <h2 className="text-lg font-bold mb-4">إضافة حجز جديد</h2>
-      <form
-  onSubmit={handleSubmit}
-  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
->
-  <input
-    name="client"
-    placeholder="اسم العميل"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
-  <input
-    name="phone"
-    placeholder="رقم الجوال"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+        >
+          <div>
+            <label className="block mb-1 text-sm font-medium">اسم العميل</label>
+            <input
+              name="client"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <CustomSelect
-    options={eventOptions}
-    value={eventOptions.find((opt) => opt.value === formData.eventType)}
-    onChange={(opt) => handleSelectChange("eventType", opt)}
-    placeholder="نوع المناسبة"
-  />
+          {/* Phone */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">رقم الجوال</label>
+            <input
+              name="phone"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <input
-    type="date"
-    name="startDate"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
-  <input
-    type="date"
-    name="endDate"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
-  <input
-    name="hall"
-    placeholder="القاعة"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
-  <input
-    name="sections"
-    placeholder="الأقسام"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded w-full"
-  />
+          <div>
+            <label className="block  mb-1 text-sm font-medium">نوع المناسبة</label>
+            <CustomSelect
+              options={eventOptions}
+              value={eventOptions.find((opt) => opt.value === formData.eventType)}
+              onChange={(opt) => handleSelectChange("eventType", opt)}
+              placeholder="اختر نوع المناسبة"
+            />
+          </div>
 
-  <input
-    name="amount"
-    type="number"
-    placeholder="المبلغ"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-    required
-  />
-  <input
-    name="discount"
-    type="number"
-    placeholder="الخصم"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-  />
-  <input
-    name="tax"
-    type="number"
-    placeholder="الضريبة"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-  />
+          {/* Start Date */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">تاريخ البداية</label>
+            <input
+              type="date"
+              name="startDate"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <input
-    name="cash"
-    type="number"
-    placeholder="نقدا"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-  />
-  <input
-    name="network"
-    type="number"
-    placeholder="شبكة"
-    onChange={handleChange}
-    className="border px-3 h-10 rounded outline-none w-full"
-  />
+          {/* End Date */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">تاريخ النهاية</label>
+            <input
+              type="date"
+              name="endDate"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <CustomSelect
-    options={ownerOptions}
-    value={ownerOptions.find((opt) => opt.value === formData.owner)}
-    onChange={(opt) => handleSelectChange("owner", opt)}
-    placeholder="اختر المالك"
-  />
+          {/* Hall */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">القاعة</label>
+            <input
+              name="hall"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <CustomSelect
-    options={statusOptions}
-    value={statusOptions.find((opt) => opt.value === formData.reservationStatus)}
-    onChange={(opt) => handleSelectChange("reservationStatus", opt)}
-    placeholder="حالة الحجز"
-  />
+          {/* Sections */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">الأقسام</label>
+            <input
+              name="sections"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+            />
+          </div>
 
-  <CustomSelect
-    options={paymentOptions}
-    value={paymentOptions.find((opt) => opt.value === formData.paymentStatus)}
-    onChange={(opt) => handleSelectChange("paymentStatus", opt)}
-    placeholder="حالة الدفع"
-  />
+          {/* Amount */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">المبلغ</label>
+            <input
+              name="amount"
+              type="number"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+              required
+            />
+          </div>
 
-  <textarea
-    name="notes"
-    placeholder="ملاحظات"
-    onChange={handleChange}
-    className="lg:col-span-3 border px-3 py-2 rounded outline-none w-full min-h-[80px] resize-y"
-  />
+          {/* Discount */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">الخصم</label>
+            <input
+              name="discount"
+              type="number"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+            />
+          </div>
 
-  <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end gap-2 mt-4">
-    <button
-      type="button"
-      onClick={onClose}
-      className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
-    >
-      إلغاء
-    </button>
-    <button
-      type="submit"
-      className="bg-[#2ba670] text-white px-4 py-2 rounded"
-    >
-      حفظ
-    </button>
-  </div>
-</form>
+          {/* Tax */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">الضريبة</label>
+            <input
+              name="tax"
+              type="number"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+            />
+          </div>
 
+          {/* Cash */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">نقدا</label>
+            <input
+              name="cash"
+              type="number"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+            />
+          </div>
+
+          {/* Network */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">شبكة</label>
+            <input
+              name="network"
+              type="number"
+              onChange={handleChange}
+              className="border px-3 h-10 rounded w-full outline-none"
+            />
+          </div>
+
+          {/* Owner */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">المالك</label>
+            <CustomSelect
+              options={ownerOptions}
+              value={ownerOptions.find((opt) => opt.value === formData.owner)}
+              onChange={(opt) => handleSelectChange("owner", opt)}
+              placeholder="اختر المالك"
+            />
+          </div>
+
+          {/* Reservation Status */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">حالة الحجز</label>
+            <CustomSelect
+              options={statusOptions}
+              value={statusOptions.find((opt) => opt.value === formData.reservationStatus)}
+              onChange={(opt) => handleSelectChange("reservationStatus", opt)}
+              placeholder="اختر الحالة"
+            />
+          </div>
+
+          {/* Payment Status */}
+          <div>
+            <label className="block mb-1 text-sm font-medium">حالة الدفع</label>
+            <CustomSelect
+              options={paymentOptions}
+              value={paymentOptions.find((opt) => opt.value === formData.paymentStatus)}
+              onChange={(opt) => handleSelectChange("paymentStatus", opt)}
+              placeholder="اختر الحالة"
+            />
+          </div>
+
+          {/* Notes */}
+          <div className="lg:col-span-3">
+            <label className="block mb-1 text-sm font-medium">ملاحظات</label>
+            <textarea
+              name="notes"
+              onChange={handleChange}
+              className="border px-3 py-2 rounded w-full min-h-[80px] resize-y outline-none"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="col-span-1 sm:col-span-2 lg:col-span-3 flex justify-end gap-2 mt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+            >
+              إلغاء
+            </button>
+            <button
+              type="submit"
+              className="bg-[#2ba670] text-white px-4 py-2 rounded"
+            >
+              حفظ
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
