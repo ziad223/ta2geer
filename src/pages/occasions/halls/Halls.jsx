@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from "react";
 import Container from "../../../components/shared/Container";
 import Table from "../../../components/shared/Table";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaCalendar, FaEdit, FaTrashAlt } from "react-icons/fa";
 import AddHallModal from "./AddHallModal";
 import EditHallModal from "./EditHallModal";
 import DeleteHallModal from "./DeleteHallModal";
 import logo1 from '../../../../public/images/home/media-center.png'
 import logo2 from '../../../../public/images/home/hero.png'
+import { Link } from "react-router-dom";
 const Halls = () => {
   const [halls, setHalls] = useState([
     {
@@ -130,12 +131,22 @@ const Halls = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               value={searchTerm}
             />
+           <div className="flex gap-2">
+              <Link
+              to='/reservations-schedule'
+              onClick={() => setAddModalOpen(true)}
+              className="bg-[#0dcaf0] flex items-center gap-2 px-3 h-[35px] text-white rounded-md w-full md:w-auto"
+            >
+              <FaCalendar/>
+             جدول الحجوزات
+            </Link>
             <button
               onClick={() => setAddModalOpen(true)}
               className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md w-full md:w-auto"
             >
               أضف قاعة +
             </button>
+           </div>
           </div>
 
           <Table columns={columns} data={dataWithActions} />

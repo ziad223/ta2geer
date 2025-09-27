@@ -37,6 +37,7 @@ import VisitorsReservations from './pages/visitrors-reservations/VisitorsReserva
 import ProtectedRoute from './components/ProtectedRoute';
 import Reports from './pages/reports/Reports';
 import BookingPage from './pages/new-booking/BookingPage';
+import ReservationsSchedule from './pages/occasions/halls/ReservationsSchedule';
 
 
 const App = () => {
@@ -87,6 +88,7 @@ const App = () => {
   <Route path='/alerts' element={<ProtectedRoute><Alerts /></ProtectedRoute>} />
   <Route path='/reports' element={<ProtectedRoute><Reports /></ProtectedRoute>} />
   <Route path='/new-booking' element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
+  <Route path='/reservations-schedule' element={<ProtectedRoute><ReservationsSchedule /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       <Footer/>
