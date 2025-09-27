@@ -111,8 +111,8 @@ const Alerts = () => {
         <h2 className="text-xl font-bold mb-4">التنبيهات</h2>
 
         <div className="bg-white p-4 rounded-lg shadow-sm">
-          {/* فلاتر البحث */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 items-center">
+          {/* فلاتر البحث كلها في صف واحد */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 items-center">
             <input
               type="text"
               value={searchClient}
@@ -133,14 +133,22 @@ const Alerts = () => {
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
-              className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+              className="border h-[40px] px-3 rounded-lg text-sm w-full outline-none"
+              placeholder="من"
             />
+
             <input
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              className="border h-[40px] px-2 rounded-lg text-sm w-full outline-none"
+              className="border h-[40px] px-3 rounded-lg text-sm w-full outline-none"
+              placeholder="إلى"
             />
+          </div>
+
+          {/* تنبيه */}
+          <div className="mb-6 bg-[#cff4fc] text-lg h-[60px] flex items-center px-5 text-[#0589c6] rounded-lg font-semibold text-sm">
+          يظهر هنا المتاخرين عن السداد الذي بقي لهم يومين عن موعد الحجز
           </div>
 
           {/* جدول التنبيهات */}
