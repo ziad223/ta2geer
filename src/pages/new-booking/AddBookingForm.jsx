@@ -1,540 +1,504 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
+import React, { useState } from 'react';
+import { FaBoxOpen, FaCalendarAlt, FaMoneyBillWave, FaTasks, FaUser } from 'react-icons/fa';
+import Container from '../../components/shared/Container';
+import CustomSelect from '../../components/shared/CustomSelect';
+import { BsFillInfoCircleFill } from "react-icons/bs";
+import { MdOutlinePayment } from 'react-icons/md';
+import { CiStickyNote } from "react-icons/ci";
+import AddClientModal from './AddClientModal';
 
 const AddBookingForm = () => {
-  // States للبيانات
+  
+  const [formDataa, setFormDataa] = useState({
+  client: null,
+  hall: null,
+  departments: [],
+  occasion: null,
+  price: '',
+  startDate: '',
+  days: 1,
+  endDate: '',
+  startHijri: '',
+  endHijri: '',
+  stages: [
+    { id: 1, name: 'إنشاء العقد', date: '', done: false },
+    { id: 2, name: 'توقيع العقد', date: '', done: false },
+    { id: 3, name: 'العربون', date: '', done: false },
+    { id: 4, name: 'تم الحجز', date: '', done: false },
+  ],
+});
+
   const [formData, setFormData] = useState({
-    // معلومات العميل
-    client: '',
-    hall: '',
+    client: null,
+    hall: null,
     departments: [],
-    occasion: '',
+    occasion: null,
     price: '',
-    
-    // تفاصيل الحجز
     startDate: '',
     days: 1,
     endDate: '',
-    hijriStartDate: '',
-    hijriEndDate: '',
-    
-    // الخدمات
-    services: [],
-    selectedService: '',
-    
-    // طرق الدفع
-    cashAmount: 0,
-    networkAmount: 0,
-    
-    // التفاصيل المالية
+    startHijri: '',
+    endHijri: '',
     bookingAmount: 0,
     discount: 0,
     afterDiscount: 0,
     tax: 0,
     total: 0,
-    paymentStatus: 'غير مدفوع',
-    
-    // حالة الحجز
-    contractCreated: { date: '09/24/2025', status: 'تم' },
-    contractSigned: { date: '09/24/2025', status: 'تم' },
-    deposit: { date: '09/24/2025', status: 'تم' },
-    bookingCompleted: { date: '09/24/2025', status: 'تم' },
-    
-    // الملاحظات
-    notes: ''
+    paymentStatus: ''
   });
 
-  // Options للسيليكت
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
+
   const clientOptions = [
-    { value: 'client1', label: 'عميل ١' },
-    { value: 'client2', label: 'عميل ٢' },
-    { value: 'client3', label: 'عميل ٣' }
+    { value: 'client1', label: 'عميل 1' },
+    { value: 'client2', label: 'عميل 2' },
   ];
 
   const hallOptions = [
-    { value: 'hall1', label: 'قاعة الأفراح' },
-    { value: 'hall2', label: 'قاعة المؤتمرات' },
-    { value: 'hall3', label: 'قاعة المناسبات' }
+    { value: 'hall1', label: 'القاعة 1' },
+    { value: 'hall2', label: 'القاعة 2' },
   ];
 
   const departmentOptions = [
     { value: 'men', label: 'قسم الرجال' },
-    { value: 'women', label: 'قسم النساء' }
+    { value: 'women', label: 'قسم النساء' },
   ];
 
   const occasionOptions = [
-    { value: 'wedding', label: 'زفاف' },
+    { value: 'wedding', label: 'زواج' },
     { value: 'birthday', label: 'عيد ميلاد' },
     { value: 'conference', label: 'مؤتمر' },
-    { value: 'party', label: 'حفلة' }
   ];
 
-  const serviceOptions = [
-    { value: 'catering', label: 'خدمات الطعام' },
-    { value: 'decoration', label: 'الديكور' },
-    { value: 'photography', label: 'التصوير' },
-    { value: 'music', label: 'الموسيقى' },
-    { value: 'lighting', label: 'الإضاءة' }
-  ];
-
-  // معالجة التغييرات
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (name, selectedOption) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: selectedOption 
-    }));
-  };
-
-  const handleMultiSelectChange = (name, selectedOptions) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: selectedOptions || [] 
-    }));
-  };
-
-  const handleDepartmentChange = (selectedOptions) => {
-    setFormData(prev => ({ 
-      ...prev, 
-      departments: selectedOptions || [] 
-    }));
-  };
-
-  // إضافة خدمة
-  const addService = () => {
-    if (formData.selectedService && !formData.services.some(s => s.value === formData.selectedService.value)) {
-      setFormData(prev => ({
-        ...prev,
-        services: [...prev.services, formData.selectedService],
-        selectedService: ''
-      }));
-    }
-  };
-
-  // إزالة خدمة
-  const removeService = (index) => {
-    setFormData(prev => ({
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
       ...prev,
-      services: prev.services.filter((_, i) => i !== index)
+      [field]: value,
     }));
   };
 
-  // حساب التواريخ والمبالغ تلقائياً
-  useEffect(() => {
-    // حساب تاريخ النهاية بناءً على تاريخ البداية وعدد الأيام
-    if (formData.startDate && formData.days) {
-      const startDate = new Date(formData.startDate);
-      const endDate = new Date(startDate);
-      endDate.setDate(startDate.getDate() + parseInt(formData.days));
-      setFormData(prev => ({ 
-        ...prev, 
-        endDate: endDate.toISOString().split('T')[0] 
-      }));
-    }
+  const handleSubmit = () => {
+    console.log('Form Data:', formData);
+  };
 
-    // حساب المبالغ المالية
-    const bookingAmount = parseFloat(formData.price) || 0;
-    const servicesAmount = formData.services.length * 100; // افتراضي 100 لكل خدمة
-    const totalBeforeDiscount = bookingAmount + servicesAmount;
-    const afterDiscount = totalBeforeDiscount - (parseFloat(formData.discount) || 0);
-    const taxAmount = afterDiscount * 0.15; // افتراضي 15%
-    const totalAmount = afterDiscount + taxAmount;
+  const updateStage = (index, patch) => {
+    setFormDataa(prev => {
+      const stages = prev.stages.map((s, i) => (i === index ? { ...s, ...patch } : s));
+      return { ...prev, stages };
+    });
+  };
 
-    setFormData(prev => ({
-      ...prev,
-      bookingAmount: totalBeforeDiscount,
-      afterDiscount: afterDiscount,
-      tax: taxAmount,
-      total: totalAmount
-    }));
-
-    // حساب المتبقي
-    const paidAmount = (parseFloat(formData.cashAmount) || 0) + (parseFloat(formData.networkAmount) || 0);
-    const remaining = totalAmount - paidAmount;
-    setFormData(prev => ({ 
-      ...prev, 
-      paymentStatus: remaining <= 0 ? 'مدفوع' : 'غير مدفوع' 
-    }));
-
-  }, [formData.price, formData.days, formData.startDate, formData.services, formData.discount, formData.cashAmount, formData.networkAmount]);
-
-  // تنسيق السيليكت
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      border: '1px solid #d1d5db',
-      borderRadius: '0.375rem',
-      padding: '0.25rem',
-      textAlign: 'right'
-    }),
-    menu: (provided) => ({
-      ...provided,
-      textAlign: 'right'
-    })
+  const deleteStage = (index) => {
+    setFormDataa(prev => {
+      const stages = prev.stages.filter((_, i) => i !== index);
+      return { ...prev, stages };
+    });
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">إضافة حجز جديد</h1>
+    <Container>
+      <div className="my-10">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-right">
+          إضافة حجز جديد
+        </h1>
 
-      {/* معلومات العميل */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">معلومات العميل</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* العميل */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">العميل *</label>
-            <Select
-              options={clientOptions}
-              value={formData.client}
-              onChange={(selected) => handleSelectChange('client', selected)}
-              placeholder="اختر العميل"
-              styles={customStyles}
-              className="text-right"
-            />
+        {/* الصف الأول - معلومات العميل وتفاصيل الحجز */}
+        <div className="flex flex-col lg:flex-row gap-5">
+          {/* معلومات العميل */}
+          <div className="w-full lg:w-[60%] rounded-lg bg-white shadow-lg">
+            <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FaUser />
+                <span>معلومات العميل</span>
+              </div>
+              <button 
+                className="bg-white rounded-[20px] px-5 py-3 text-black font-semibold text-sm hover:bg-gray-100 transition-colors"
+                onClick={() => setShowAddClientModal(true)}
+              >
+                إضافة عميل +
+              </button>
+            </div>
+
+            <div className="p-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {/* العميل */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">العميل *</label>
+                  <CustomSelect
+                    options={clientOptions}
+                    value={formData.client}
+                    onChange={(val) => handleChange('client', val)}
+                    placeholder="اختر العميل"
+                  />
+                </div>
+
+                {/* القاعة */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">القاعة *</label>
+                  <CustomSelect
+                    options={hallOptions}
+                    value={formData.hall}
+                    onChange={(val) => handleChange('hall', val)}
+                    placeholder="اختر القاعة"
+                  />
+                </div>
+
+                {/* الأقسام */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">الأقسام</label>
+                  <CustomSelect
+                    options={departmentOptions}
+                    value={formData.departments}
+                    onChange={(val) => handleChange('departments', val)}
+                    placeholder="اختر الأقسام"
+                    isMulti
+                  />
+                </div>
+
+                {/* المناسبة */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">المناسبة *</label>
+                  <CustomSelect
+                    options={occasionOptions}
+                    value={formData.occasion}
+                    onChange={(val) => handleChange('occasion', val)}
+                    placeholder="اختر المناسبة"
+                  />
+                </div>
+
+                {/* السعر */}
+                <div className='col-span-2'>
+                  <label className="block mb-2 font-medium text-sm">
+                    السعر * <span className='text-red-500 text-xs'>( يمكنك هنا تعديل سعر القاعة فقط)</span>
+                  </label>
+                  <input
+                    type="number"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    placeholder="يمكنك هنا تعديل سعر القاعة"
+                    value={formData.price}
+                    onChange={(e) => handleChange('price', e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* القاعة */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">القاعة *</label>
-            <Select
-              options={hallOptions}
-              value={formData.hall}
-              onChange={(selected) => handleSelectChange('hall', selected)}
-              placeholder="اختر القاعة"
-              styles={customStyles}
-            />
-          </div>
+          {/* تفاصيل الحجز */}
+          <div className="w-full lg:w-[40%] rounded-lg bg-white shadow-lg">
+            <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FaCalendarAlt />
+                <span>تفاصيل الحجز</span>
+              </div>
+              <BsFillInfoCircleFill className='text-2xl' />
+            </div>
 
-          {/* الأقسام */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">الأقسام</label>
-            <Select
-              options={departmentOptions}
-              value={formData.departments}
-              onChange={handleDepartmentChange}
-              isMulti
-              placeholder="اختر الأقسام"
-              styles={customStyles}
-            />
-          </div>
+            <div className="p-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block mb-2 font-medium text-sm">تاريخ بداية الحجز *</label>
+                  <input
+                    type="date"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    value={formData.startDate}
+                    onChange={(e) => handleChange('startDate', e.target.value)}
+                  />
+                </div>
 
-          {/* المناسبة */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">المناسبة *</label>
-            <Select
-              options={occasionOptions}
-              value={formData.occasion}
-              onChange={(selected) => handleSelectChange('occasion', selected)}
-              placeholder="اختر المناسبة"
-              styles={customStyles}
-            />
-          </div>
+                {/* عدد الأيام */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">عدد الأيام *</label>
+                  <input
+                    type="number"
+                    min="1"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    value={formData.days}
+                    onChange={(e) => handleChange('days', e.target.value)}
+                  />
+                </div>
 
-          {/* السعر */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">
-              السعر * <span className="text-xs text-gray-500">يمكنك هنا تعديل سعر القاعة فقط</span>
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-                placeholder="0"
-              />
-              <span className="absolute left-3 top-2 text-gray-500">ر.س</span>
+                {/* تاريخ نهاية الحجز */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">تاريخ نهاية الحجز *</label>
+                  <input
+                    type="date"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    value={formData.endDate}
+                    onChange={(e) => handleChange('endDate', e.target.value)}
+                  />
+                </div>
+
+                {/* بداية الحجز الهجري */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">تاريخ بداية الحجز الهجري *</label>
+                  <input
+                    type="text"
+                    placeholder="اختر التاريخ"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    value={formData.startHijri}
+                    onChange={(e) => handleChange('startHijri', e.target.value)}
+                  />
+                </div>
+
+                {/* نهاية الحجز الهجري */}
+                <div className="md:col-span-2">
+                  <label className="block mb-2 font-medium text-sm">تاريخ نهاية الحجز الهجري *</label>
+                  <input
+                    type="text"
+                    placeholder="اختر التاريخ"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    value={formData.endHijri}
+                    onChange={(e) => handleChange('endHijri', e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* تفاصيل الحجز */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">تفاصيل الحجز</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* تاريخ بداية الحجز */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">تاريخ بداية الحجز *</label>
-            <input
-              type="date"
-              name="startDate"
-              value={formData.startDate}
-              onChange={handleInputChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-            />
+        {/* قسم الخدمات */}
+        <div className='bg-white shadow-lg rounded-lg mt-5'>
+          <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <FaUser />
+              <span>الخدمات</span>
+            </div>
+            <button className="bg-white rounded-[20px] px-5 py-3 text-black font-semibold text-sm hover:bg-gray-100 transition-colors">
+              إضافة خدمة +
+            </button>
           </div>
-
-          {/* عدد الأيام */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">عدد الأيام *</label>
-            <input
-              type="number"
-              name="days"
-              value={formData.days}
-              onChange={handleInputChange}
-              min="1"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-            />
-          </div>
-
-          {/* تاريخ نهاية الحجز */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">تاريخ نهاية الحجز *</label>
-            <input
-              type="date"
-              value={formData.endDate}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 text-right text-gray-600"
-            />
-          </div>
-
-          {/* تاريخ بداية الحجز الهجري */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">تاريخ بداية الحجز الهجري *</label>
-            <input
-              type="text"
-              name="hijriStartDate"
-              value={formData.hijriStartDate}
-              onChange={handleInputChange}
-              placeholder="اختر التاريخ"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-            />
-          </div>
-
-          {/* تاريخ نهاية الحجز الهجري */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1 text-right">تاريخ نهاية الحجز الهجري *</label>
-            <input
-              type="text"
-              name="hijriEndDate"
-              value={formData.hijriEndDate}
-              onChange={handleInputChange}
-              placeholder="اختر التاريخ"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-            />
+          <div className="p-5 flex items-center justify-center flex-col gap-3">
+            <FaBoxOpen size={40} className='text-gray-800'/>
+            <h2 className='my-2 text-gray-700'>لم يتم إضافة أي خدمات بعد</h2>
+            <h3 className='text-gray-500'>اختر خدمة من القائمة أعلاه لإضافتها</h3>
           </div>
         </div>
-      </div>
 
-      {/* الخدمات */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">الخدمات</h2>
-        
-        <div className="mb-4">
-          {formData.services.length > 0 ? (
-            <div className="space-y-2">
-              {formData.services.map((service, index) => (
-                <div key={index} className="flex justify-between items-center bg-gray-50 p-3 rounded">
-                  <span>{service.label}</span>
-                  <button
-                    onClick={() => removeService(index)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    حذف
+        {/* الصف الثاني - طرق الدفع والتفاصيل المالية */}
+        <div className="flex flex-col lg:flex-row gap-5 mt-5">
+          {/* طرق الدفع */}
+          <div className="w-full lg:w-[50%] rounded-lg bg-white shadow-lg">
+            <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <MdOutlinePayment size={20} />
+                <span>طرق الدفع</span>
+              </div>
+              <button className="bg-white rounded-[20px] text-red-600 px-5 py-3 font-semibold text-sm">
+                المتبقي : 30
+              </button>
+            </div>
+
+            <div className="p-5 flex flex-col gap-5">
+              <div className='bg-[#f8f9fa] py-5 rounded-lg px-7 flex items-center justify-between w-full'>
+                <h2 className='font-medium'>نقدا</h2>
+                <div className='flex'>
+                  <input 
+                    type="text" 
+                    className='h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-24 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent' 
+                    value={0} 
+                    readOnly
+                  />
+                  <button className='px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700'>
+                    ر.س
                   </button>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 text-center py-4">لم يتم إضافة أي خدمات بعد</p>
-          )}
-        </div>
-
-        <div className="flex gap-2">
-          <div className="flex-1 ">
-           <div className="flex flex-col md:flex-row gap-5">
-             <Select
-              options={serviceOptions}
-              value={formData.selectedService}
-              onChange={(selected) => handleSelectChange('selectedService', selected)}
-              placeholder="اختر خدمة من القائمة أعلاه لإضافتها"
-              styles={customStyles}
-            />
-              <button
-            onClick={addService}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md whitespace-nowrap"
-          >
-            إضافة خدمة
-          </button>
-          </div>
-        
-           </div>
-        </div>
-      </div>
-
-      {/* طرق الدفع */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">
-          طرق الدفع <span className="text-sm font-normal text-gray-500">المتبقي: {formData.total - (formData.cashAmount + formData.networkAmount)} ر.س</span>
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* نقدا */}
-          <div className="border rounded-lg p-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2 text-right">نقدا</label>
-            <div className="relative">
-              <input
-                type="number"
-                name="cashAmount"
-                value={formData.cashAmount}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-              />
-              <span className="absolute left-3 top-2 text-gray-500">ر.س</span>
+              </div>
+              <div className='bg-[#f8f9fa] py-5 rounded-lg px-7 flex items-center justify-between w-full'>
+                <h2 className='font-medium'>نقدا</h2>
+                <div className='flex'>
+                  <input 
+                    type="text" 
+                    className='h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-24 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent' 
+                    value={0} 
+                    readOnly
+                  />
+                  <button className='px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700'>
+                    ر.س
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* شبكة */}
-          <div className="border rounded-lg p-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2 text-right">شبكة</label>
-            <div className="relative">
-              <input
-                type="number"
-                name="networkAmount"
-                value={formData.networkAmount}
-                onChange={handleInputChange}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-              />
-              <span className="absolute left-3 top-2 text-gray-500">ر.س</span>
+          {/* التفاصيل المالية */}
+          <div className="w-full lg:w-[50%] rounded-lg bg-white shadow-lg">
+            <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FaMoneyBillWave className='text-2xl' />
+                <span>التفاصيل المالية</span>
+              </div>
+            </div>
+
+            <div className="p-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block mb-2 font-medium text-sm">مبلغ الحجز + مبلغ الخدمات</label>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      className="h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-full focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                      value={formData.bookingAmount || 0}
+                      onChange={(e) => handleChange('bookingAmount', e.target.value)}
+                    />
+                    <button className="px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700">ر.س</button>
+                  </div>
+                </div>
+
+                {/* الخصم */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">الخصم *</label>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      className="h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-full focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                      value={formData.discount || 0}
+                      onChange={(e) => handleChange('discount', e.target.value)}
+                    />
+                    <button className="px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700">ر.س</button>
+                  </div>
+                </div>
+
+                {/* المبلغ بعد الخصم */}
+                <div> 
+                  <label className="block mb-2 font-medium text-sm">المبلغ بعد الخصم</label>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      className="h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-full focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                      value={formData.afterDiscount || 0}
+                      onChange={(e) => handleChange('afterDiscount', e.target.value)}
+                    />
+                    <button className="px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700">ر.س</button>
+                  </div>
+                </div>
+
+                {/* الضريبة */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">الضريبة</label>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      className="h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-full focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                      value={formData.tax || 0}
+                      onChange={(e) => handleChange('tax', e.target.value)}
+                    />
+                    <button className="px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700">ر.س</button>
+                  </div>
+                </div>
+
+                {/* الإجمالي */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">الإجمالي</label>
+                  <div className="flex">
+                    <input
+                      type="text"
+                      className="h-[40px] px-3 bg-white border border-gray-200 rounded-tr-lg rounded-br-lg w-full focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                      value={formData.total || 0}
+                      onChange={(e) => handleChange('total', e.target.value)}
+                    />
+                    <button className="px-3 bg-gray-200 rounded-tl-lg rounded-bl-lg text-gray-700">ر.س</button>
+                  </div>
+                </div>
+
+                {/* حالة الدفع */}
+                <div>
+                  <label className="block mb-2 font-medium text-sm">حالة الدفع</label>
+                  <input
+                    type="text"
+                    className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                    placeholder="مثال: مدفوع / متبقي"
+                    value={formData.paymentStatus || ''}
+                    onChange={(e) => handleChange('paymentStatus', e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* التفاصيل المالية */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">التفاصيل المالية</h2>
-        
-        <div className="space-y-3">
-          {/* مبلغ الحجز + مبلغ الخدمات */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">مبلغ الحجز + مبلغ الخدمات *</span>
-            <span className="font-medium">{formData.bookingAmount} ر.س</span>
-          </div>
-
-          {/* الخصم */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">الخصم</span>
+        {/* حالة الحجز */}
+        <div className="w-full mt-5 rounded-lg bg-white shadow-lg">
+          <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <input
-                type="number"
-                name="discount"
-                value={formData.discount}
-                onChange={handleInputChange}
-                className="w-24 border border-gray-300 rounded-md px-2 py-1 text-right"
-              />
-              <span>ر.س</span>
+              <FaTasks size={20} />
+              <span>حالة الحجز</span>
             </div>
+            <button className="bg-white rounded-[20px] text-red-600 px-5 py-3 font-semibold text-sm">
+              المتبقي : 30
+            </button>
           </div>
 
-          {/* المبلغ بعد الخصم */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">المبلغ بعد الخصم</span>
-            <span className="font-medium">{formData.afterDiscount} ر.س</span>
-          </div>
+          <div className="p-5 space-y-3">
+            {formDataa.stages.map((stage, idx) => (
+              <div key={stage.id} className="grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
+                <input
+                  type="text"
+                  value={stage.name}
+                  onChange={(e) => updateStage(idx, { name: e.target.value })}
+                  className="w-full border rounded-md outline-none px-3 py-2 focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                />
 
-          {/* الضريبة */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">الضريبة</span>
-            <span className="font-medium">{formData.tax.toFixed(2)} ر.س</span>
-          </div>
+                <input
+                  type="date"
+                  value={stage.date}
+                  onChange={(e) => updateStage(idx, { date: e.target.value })}
+                  className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#09adce] focus:border-transparent"
+                />
 
-          {/* الإجمالي */}
-          <div className="flex justify-between items-center border-t pt-2">
-            <span className="text-gray-700 font-semibold">الإجمالي</span>
-            <span className="font-bold text-lg">{formData.total.toFixed(2)} ر.س</span>
-          </div>
+                {/* checkbox تم */}
+                <div className="flex items-center gap-2">
+                  <input
+                    id={`stage-done-${stage.id}`}
+                    type="checkbox"
+                    className="h-4 w-4 text-[#09adce] focus:ring-[#09adce]"
+                  />
+                  <label htmlFor={`stage-done-${stage.id}`} className="text-sm">تم</label>
+                </div>
 
-          {/* حالة الدفع */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">حالة الدفع</span>
-            <span className={`font-medium ${formData.paymentStatus === 'مدفوع' ? 'text-green-600' : 'text-red-600'}`}>
-              {formData.paymentStatus}
-            </span>
+                <button
+                  type="button"
+                  onClick={() => deleteStage(idx)}
+                  className="bg-red-500 text-white w-full lg:w-1/4 md:w-auto px-3 py-2 rounded-md hover:bg-red-600 transition-colors"
+                >
+                  حذف
+                </button>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* حالة الحجز */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">حالة الحجز</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* إنشاء العقد */}
-          <div className="flex justify-between items-center border rounded-lg p-3">
-            <span className="text-gray-700">إنشاء العقد</span>
-            <div className="text-right">
-              <div className="text-sm">{formData.contractCreated.date}</div>
-              <div className={`text-xs ${formData.contractCreated.status === 'تم' ? 'text-green-600' : 'text-gray-600'}`}>
-                {formData.contractCreated.status}
-              </div>
+        {/* الملاحظات */}
+        <div className="w-full mt-5 rounded-lg bg-white shadow-lg">
+          <div className="bg-[#09adce] text-white h-20 rounded-lg px-5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <CiStickyNote size={20} />
+              <span>الملاحظات</span>
             </div>
           </div>
 
-          {/* توقيع العقد */}
-          <div className="flex justify-between items-center border rounded-lg p-3">
-            <span className="text-gray-700">توقيع العقد</span>
-            <div className="text-right">
-              <div className="text-sm">{formData.contractSigned.date}</div>
-              <div className={`text-xs ${formData.contractSigned.status === 'تم' ? 'text-green-600' : 'text-gray-600'}`}>
-                {formData.contractSigned.status}
-              </div>
-            </div>
-          </div>
-
-          {/* العربون */}
-          <div className="flex justify-between items-center border rounded-lg p-3">
-            <span className="text-gray-700">العربون</span>
-            <div className="text-right">
-              <div className="text-sm">{formData.deposit.date}</div>
-              <div className={`text-xs ${formData.deposit.status === 'تم' ? 'text-green-600' : 'text-gray-600'}`}>
-                {formData.deposit.status}
-              </div>
-            </div>
-          </div>
-
-          {/* تم الحجز */}
-          <div className="flex justify-between items-center border rounded-lg p-3">
-            <span className="text-gray-700">تم الحجز</span>
-            <div className="text-right">
-              <div className="text-sm">{formData.bookingCompleted.date}</div>
-              <div className={`text-xs ${formData.bookingCompleted.status === 'تم' ? 'text-green-600' : 'text-gray-600'}`}>
-                {formData.bookingCompleted.status}
-              </div>
-            </div>
+          <div className="p-5">
+            <textarea 
+              placeholder='أضف أي ملاحظات خاصة بالحجز هنا ...' 
+              className='w-full border border-gray-200 p-5 outline-none rounded-md focus:ring-2 focus:ring-[#09adce] focus:border-transparent min-h-[120px] resize-vertical'
+            ></textarea>
           </div>
         </div>
-      </div>
-
-      {/* الملاحظات */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-700 mb-4 text-right border-b pb-2">الملاحظات</h2>
         
-        <textarea
-          name="notes"
-          value={formData.notes}
-          onChange={handleInputChange}
-          rows="4"
-          placeholder="أضف أي ملاحظات خاصة بالحجز هنا..."
-          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-right"
-        />
-      </div>
-
-      <div className="flex justify-end gap-4">
-        
-        <button className="bg-[#09adce] hover:bg-blue-600 text-white px-6 py-2 rounded-md font-medium">
+        {/* زر الحفظ */}
+        <button
+          onClick={handleSubmit}
+          className="bg-[#09adce] mt-5 hover:bg-blue-600 text-white px-6 py-3 rounded-md font-medium transition-colors w-full md:w-auto"
+        >
           حفظ الحجز
         </button>
       </div>
-    </div>
+
+      {/* مودال إضافة عميل */}
+      <AddClientModal 
+        isOpen={showAddClientModal}
+        onClose={() => setShowAddClientModal(false)}
+      />
+    </Container>
   );
 };
 

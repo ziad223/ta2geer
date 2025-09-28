@@ -38,6 +38,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Reports from './pages/reports/Reports';
 import BookingPage from './pages/new-booking/BookingPage';
 import ReservationsSchedule from './pages/occasions/halls/ReservationsSchedule';
+import Bond from './pages/reservations/Bond';
+import InvoiceRent from './pages/invoices/InvoiceRent';
 
 // ✨ ملف مساعد علشان نقدر نستفيد من useLocation
 const AppContent = () => {
@@ -91,6 +93,8 @@ const AppContent = () => {
           <Route path='/reports' element={<ProtectedRoute><Reports /></ProtectedRoute>} />
           <Route path='/new-booking' element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
           <Route path='/reservations-schedule' element={<ProtectedRoute><ReservationsSchedule /></ProtectedRoute>} />
+          <Route path='/bond' element={<ProtectedRoute><Bond /></ProtectedRoute>} />
+          <Route path='/invoice-rent' element={<ProtectedRoute><InvoiceRent /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       {!hideFooter && <Footer />}

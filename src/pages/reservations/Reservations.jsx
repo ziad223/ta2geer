@@ -10,6 +10,7 @@ import { TbReportMoney } from "react-icons/tb";
 import { PiNewspaperClippingThin } from "react-icons/pi";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import { RiFilePaperLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 // Adding CSS for the tooltip and dropdown
 const customStyles = `
@@ -297,24 +298,23 @@ const Reservations = () => {
     actions: (
       <div className="flex justify-center align-center" style={{ gap: "3px" }}>
         <div className="tooltip-container">
-          <button
-            onClick={() => openEditModal(r)}
+          <Link to= '/bond' 
             style={{ borderRadius: "0 5px 5px 0" }}
             className="transition duration-300 border-[#000] border-2  hover:bg-[#000] hover:text-white text-[#000] w-[30px] h-[30px] flex items-center justify-center"
             data-label="السند"
           >
             <PiNewspaperClippingThin size={14} />
-          </button>
+          </Link>
           <span className="tooltip">السند</span>
         </div>
         <div className="tooltip-container">
-          <button
-            onClick={() => openEditModal(r)}
-            className="transition duration-300 border-[#1374fd] border-2 hover:bg-[#1374fd] hover:text-white text-[#1374fd] w-[30px] h-[30px] flex items-center justify-center"
+          <Link
+          to='/invoice-rent'
+            className="transition  duration-300 border-[#1374fd] hover:bg-[#1374fd] border-2 hover:bg-gray-200 hover:text-white text-[#1374fd] w-[30px] h-[30px] flex items-center justify-center"
             data-label="الفاتورة"
           >
             <TbReportMoney size={14} />
-          </button>
+          </Link>
           <span className="tooltip">الفاتورة</span>
         </div>
 
@@ -475,7 +475,6 @@ const Reservations = () => {
         onAdd={handleAddReservation}
       />
       
-      {/* مودال الملاحظات */}
       {isNotesModalOpen && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-md">

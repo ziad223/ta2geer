@@ -10,6 +10,7 @@ import { MdOutlineFileUpload, MdOutlineNotInterested } from "react-icons/md";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { TbReportMoney } from "react-icons/tb";
 import { PiNewspaperClippingThin } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 // Adding CSS for the tooltip and dropdown
 const customStyles = `
@@ -320,13 +321,12 @@ const Invoices = () => {
         </div>
 
         <div className="tooltip-container">
-          <button
-            onClick={() => openEditModal(r)}
+          <Link to='/bond'
             className="transition duration-300 bg-[#fec107] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
             data-label="السند"
           >
             <FaRegFileImage   size={14} />
-          </button>
+          </Link>
           <span className="tooltip">السند</span>
         </div>
 
