@@ -95,7 +95,7 @@ const Navbar = () => {
               
             </li>
              <li>
-              <Link to ='/reservations' className='text-white  flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg'>
+              <Link to ='/reservations-schedule' className='text-white  flex items-center gap-1 bg-[#09adce] h-[38px] px-3 text-sm rounded-lg'>
                  <FaCalendar/>
                  <span>جدول الحجوزات</span>
               </Link>

@@ -22,6 +22,15 @@ const AddClientModal = ({ isOpen, onClose, onAdd }) => {
 
   if (!isOpen) return null;
 
+  // Dummy data for halls
+  const halls = [
+    { id: 1, name: "قاعة الأندلس" },
+    { id: 2, name: "قاعة الفيصل" },
+    { id: 3, name: "قاعة الريم" },
+    { id: 4, name: "قاعة الزهرة" },
+    { id: 5, name: "قاعة الجوهرة" }
+  ];
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25 z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
@@ -49,7 +58,12 @@ const AddClientModal = ({ isOpen, onClose, onAdd }) => {
 
           <div>
             <label className="block mb-1 text-sm font-medium">القاعة</label>
-            <input name="hall" value={form.hall} onChange={handleChange} className="border rounded px-3 py-2 w-full" required />
+            <select name="hall" value={form.hall} onChange={handleChange} className="border rounded px-3 py-2 w-full" required>
+              <option value="">اختر قاعة</option>
+              {halls.map(hall => (
+                <option key={hall.id} value={hall.name}>{hall.name}</option>
+              ))}
+            </select>
           </div>
 
           <div className="flex justify-end gap-2 mt-3">

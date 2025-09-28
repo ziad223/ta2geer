@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import CustomSelect from "../../components/shared/CustomSelect";
-
+import { GoX } from "react-icons/go";
 const AddPayWayModal = ({ onClose, onSave }) => {
   const [form, setForm] = useState({
     name: "",
-    accountNumber: "",
-    status: { value: "نشط", label: "نشط" },
-    cash: { value: "لا", label: "لا" },
-    defaultPayment: { value: "لا", label: "لا" },
-    employees: "",
+    account: null,
+    paymentType: "", // Will store one of: "نقدي", "الافتراضي للدفع", "مفغل"
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
   };
 
   const handleSelectChange = (selected, { name }) => {
@@ -22,9 +23,7 @@ const AddPayWayModal = ({ onClose, onSave }) => {
   const handleSubmit = () => {
     const formatted = {
       ...form,
-      status: form.status?.value || "",
-      cash: form.cash?.value || "",
-      defaultPayment: form.defaultPayment?.value || "",
+      account: form.account?.value || "",
     };
     onSave(formatted);
   };
@@ -32,9 +31,14 @@ const AddPayWayModal = ({ onClose, onSave }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-[400px]">
-        <h3 className="text-lg font-bold mb-4">إضافة طريقة دفع</h3>
-
-        <div className="flex flex-col gap-3">
+        <h3 className="text-lg font-bold mb-4 flex justify-between">
+          إضافة طريقة دفع{" "}
+          <span className="text-3xl weight-thin cursor-pointer" onClick={onClose}>
+            <GoX />
+          </span>
+        </h3>
+        <hr />
+        <div className="flex flex-col gap-3 mt-6">
           <input
             name="name"
             placeholder="الاسم"
@@ -43,69 +47,65 @@ const AddPayWayModal = ({ onClose, onSave }) => {
             className="border p-2 rounded"
           />
 
-          <input
-            name="accountNumber"
-            placeholder="رقم الحساب"
-            value={form.accountNumber}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          />
-
-          {/* status */}
           <CustomSelect
-            name="status"
+            name="account"
             options={[
-              { value: "نشط", label: "نشط" },
-              { value: "موقوف", label: "موقوف" },
+              { value: "حساب1", label: "حساب1" },
+              { value: "حساب2", label: "حساب2" },
+              { value: "حساب3", label: "حساب3" },
             ]}
-            value={form.status}
+            value={form.account}
             onChange={handleSelectChange}
-            placeholder="اختر الحالة"
+            placeholder="اختر الحساب"
           />
 
-          {/* cash */}
-          <CustomSelect
-            name="cash"
-            options={[
-              { value: "نعم", label: "نعم" },
-              { value: "لا", label: "لا" },
-            ]}
-            value={form.cash}
-            onChange={handleSelectChange}
-            placeholder="كاش؟"
-          />
+          <div className="flex flex-col gap-2 mt-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="paymentType"
+                value="نقدي"
+                checked={form.paymentType === "نقدي"}
+                onChange={handleChange}
+                className="w-4 h-4"
+              />
+              <span>نقدي</span>
+            </label>
 
-          {/* defaultPayment */}
-          <CustomSelect
-            name="defaultPayment"
-            options={[
-              { value: "نعم", label: "نعم" },
-              { value: "لا", label: "لا" },
-            ]}
-            value={form.defaultPayment}
-            onChange={handleSelectChange}
-            placeholder="افتراضي؟"
-          />
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="paymentType"
+                value="الافتراضي للدفع"
+                checked={form.paymentType === "الافتراضي للدفع"}
+                onChange={handleChange}
+                className="w-4 h-4"
+              />
+              <span>الافتراضي للدفع</span>
+            </label>
 
-          <input
-            name="employees"
-            placeholder="الموظفين"
-            value={form.employees}
-            onChange={handleChange}
-            className="border p-2 rounded"
-          />
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="paymentType"
+                value="مفغل"
+                checked={form.paymentType === "مفغل"}
+                onChange={handleChange}
+                className="w-4 h-4"
+              />
+              <span>مفغل</span>
+            </label>
+          </div>
+          <hr />
         </div>
 
         <div className="flex justify-end gap-3 mt-5">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded"
-          >
+          <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">
             إلغاء
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 bg-[#2ba670] text-white rounded"
+            className="px-4 py-2 bg-[#0d6efd] text-white rounded"
           >
             حفظ
           </button>

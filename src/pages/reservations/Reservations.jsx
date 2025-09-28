@@ -1,11 +1,96 @@
-import React, { useState, useMemo } from "react";
-import Container from "../../components/shared/Container";
+import { useState, useMemo } from "react";
 import Table from "../../components/shared/Table";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import EditReservationModal from "./EditReservationModal";
 import DeleteReservationModal from "./DeleteReservationModal";
 import AddReservationModal from "./AddReservationModal";
 import CustomSelect from "../../components/shared/CustomSelect";
+import { MdOutlineNotInterested } from "react-icons/md";
+import { BiSolidFilePdf } from "react-icons/bi";
+import { TbReportMoney } from "react-icons/tb";
+import { PiNewspaperClippingThin } from "react-icons/pi";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
+
+// Adding CSS for the tooltip and dropdown
+const customStyles = `
+  .tooltip-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 14px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+    transform: rotate(0deg);
+  }
+
+  .tooltip-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 1000;
+    width: 150px;
+    padding: 5px 0;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .dropdown-item:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-item.edit:hover {
+    background-color: #0dcaf0;
+    color: white;
+  }
+
+  .dropdown-item.delete:hover {
+    background-color: #ef4444;
+    color: white;
+  }
+
+  .dropdown-item svg {
+    margin-left: 10px;
+  }
+`;
 
 const Reservations = () => {
   const [searchId, setSearchId] = useState("");
@@ -13,6 +98,7 @@ const Reservations = () => {
   const [owner, setOwner] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [openDropdownId, setOpenDropdownId] = useState(null); // Track which dropdown is open
 
   const [reservations, setReservations] = useState([
     {
@@ -68,10 +154,32 @@ const Reservations = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
 
+  // Toggle dropdown for a specific reservation
+  const toggleDropdown = (id) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
+  // Close dropdown when clicking outside
+  const handleClickOutside = (e) => {
+    if (!e.target.closest('.dropdown-container')) {
+      setOpenDropdownId(null);
+    }
+  };
+
+  // Add event listener for closing dropdowns when clicking outside
+  useMemo(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   const openEditModal = (reservation) => {
     setSelectedReservation(reservation);
     setEditModalOpen(true);
+    setOpenDropdownId(null); // Close dropdown when opening modal
   };
+
   const handleAddReservation = (newRes) => {
     setReservations((prev) => [...prev, newRes]);
   };
@@ -79,6 +187,7 @@ const Reservations = () => {
   const openDeleteModal = (reservation) => {
     setSelectedReservation(reservation);
     setDeleteModalOpen(true);
+    setOpenDropdownId(null); // Close dropdown when opening modal
   };
 
   const handleUpdateReservation = (updated) => {
@@ -94,10 +203,10 @@ const Reservations = () => {
   };
 
   const columns = [
-    { label: "رقم الحجز", key: "id" },
+    { label: " الحجز", key: "id" },
     { label: "العميل", key: "client" },
-    { label: "جوال العميل", key: "phone" },
-    { label: "نوع المناسبة", key: "eventType" },
+    { label: "جوال ", key: "phone" },
+    { label: " المناسبة", key: "eventType" },
     { label: "بداية الحجز", key: "startDate" },
     { label: "نهاية الحجز", key: "endDate" },
     { label: "القاعة", key: "hall" },
@@ -125,9 +234,7 @@ const Reservations = () => {
       const matchesFrom = dateFrom
         ? new Date(r.startDate) >= new Date(dateFrom)
         : true;
-      const matchesTo = dateTo
-        ? new Date(r.endDate) <= new Date(dateTo)
-        : true;
+      const matchesTo = dateTo ? new Date(r.endDate) <= new Date(dateTo) : true;
       return (
         matchesId && matchesEvent && matchesOwner && matchesFrom && matchesTo
       );
@@ -137,25 +244,92 @@ const Reservations = () => {
   const dataWithActions = filteredReservations.map((r) => ({
     ...r,
     actions: (
-      <div className="flex gap-2 justify-center">
-        <button
-          onClick={() => openEditModal(r)}
-          className="bg-[#0dcaf0] text-white rounded-sm w-[30px] h-[30px] flex items-center justify-center"
-        >
-          <FaEdit size={18} />
-        </button>
-        <button
-          onClick={() => openDeleteModal(r)}
-          className="bg-red-500 text-white rounded-sm w-[30px] h-[30px] flex items-center justify-center"
-        >
-          <FaTrashAlt size={16} />
-        </button>
+      <div className="flex justify-center align-center" style={{ gap: "3px" }}>
+        <div className="tooltip-container">
+          <button
+            onClick={() => openEditModal(r)}
+            style={{ borderRadius: "0 5px 5px 0" }}
+            className="transition duration-300 border-[#000] border-2  hover:bg-[#000] hover:text-white text-[#000] w-[30px] h-[30px] flex items-center justify-center"
+            data-label="السند"
+          >
+            <PiNewspaperClippingThin size={14} />
+          </button>
+          <span className="tooltip">السند</span>
+        </div>
+        <div className="tooltip-container">
+          <button
+            onClick={() => openEditModal(r)}
+            className="transition duration-300 border-[#1374fd] border-2 hover:bg-[#1374fd] hover:text-white text-[#1374fd] w-[30px] h-[30px] flex items-center justify-center"
+            data-label="الفاتورة"
+          >
+            <TbReportMoney size={14} />
+          </button>
+          <span className="tooltip">الفاتورة</span>
+        </div>
+
+        <div className="tooltip-container">
+          <button
+            onClick={() => openEditModal(r)}
+            className="transition duration-300 border-[#dc3545] border-2 hover:bg-[#dc3545] hover:text-white text-[#dc3545] w-[30px] h-[30px] flex items-center justify-center"
+            data-label="العقد"
+          >
+            <BiSolidFilePdf size={14} />
+          </button>
+          <span className="tooltip">العقد</span>
+        </div>
+
+        <div className="tooltip-container">
+          <button
+            onClick={() => openEditModal(r)}
+            className="transition duration-300 border-[#ffc428] border-2 hover:bg-[#ffc428] hover:text-white text-[#ffc428] w-[30px] h-[30px] flex items-center justify-center"
+            data-label="إلغاء الحجز"
+          >
+            <MdOutlineNotInterested size={14} />
+          </button>
+          <span className="tooltip">إلغاء الحجز</span>
+        </div>
+
+        {/* Dropdown menu container */}
+        <div className="dropdown-container relative">
+          <div
+            className="bg-[#f8f9fa] hover:bg-[#f8f9fa] rounded-lg p-2 flex flex-col justify-center cursor-pointer"
+            style={{ gap: "2px" }}
+            onClick={() => toggleDropdown(r.id)}
+          >
+            <div className="rounded-full bg-[#000] w-[4px] h-[4px]"></div>
+            <div className="rounded-full bg-[#000] w-[4px] h-[4px]"></div>
+            <div className="rounded-full bg-[#000] w-[4px] h-[4px]"></div>
+          </div>
+          
+          {/* Dropdown menu */}
+          {openDropdownId === r.id && (
+            <div className="dropdown-menu">
+              <div 
+                className="dropdown-item edit"
+                onClick={() => openEditModal(r)}
+              >
+             
+                <FaEdit size={17} />
+                <span>تعديل</span>
+              </div>
+              <div 
+                className="dropdown-item delete text-red-500"
+                onClick={() => openDeleteModal(r)}
+              >
+              
+                <FaTrashAlt size={17} color/>
+                <span>حذف</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     ),
   }));
 
   return (
-    <Container>
+    <>
+      <style>{customStyles}</style>
       <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">الحجوزات</h2>
 
@@ -165,7 +339,9 @@ const Reservations = () => {
             <CustomSelect
               name="eventType"
               value={eventType ? { value: eventType, label: eventType } : null}
-              onChange={(selected) => setEventType(selected ? selected.value : "")}
+              onChange={(selected) =>
+                setEventType(selected ? selected.value : "")
+              }
               options={[
                 { value: "", label: "كل المناسبات" },
                 { value: "زفاف", label: "زفاف" },
@@ -174,7 +350,6 @@ const Reservations = () => {
               ]}
               placeholder="كل المناسبات"
               className="text-sm"
-              
             />
 
             <input
@@ -218,7 +393,7 @@ const Reservations = () => {
               onClick={() => setAddModalOpen(true)}
               className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
             >
-              إضافة حجز  +
+              إضافة حجز +
             </button>
           </div>
 
@@ -248,7 +423,7 @@ const Reservations = () => {
         onClose={() => setAddModalOpen(false)}
         onAdd={handleAddReservation}
       />
-    </Container>
+    </>
   );
 };
 
