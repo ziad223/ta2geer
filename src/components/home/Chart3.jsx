@@ -79,7 +79,7 @@ const Chart3 = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-6xl h-[500px] mx-auto">
+    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-6xl h-[325px] mx-auto">
       <Line data={data} options={options} />
     </div>
   );

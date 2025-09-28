@@ -39,7 +39,7 @@ const Chart1 = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg w-full max-w-md mx-auto">
+    <div className="bg-white p-6 rounded-lg w-full max-w-md mx-auto h-[325px]">
       
       <Pie data={data} options={options} />
      

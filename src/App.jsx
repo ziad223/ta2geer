@@ -14,7 +14,7 @@ import Settings from './pages/settings/Settings';
 import Employees from './pages/settings/Employees';
 import Sections from './pages/settings/Sections';
 import PayWays from './pages/settings/PayWays';
-import PrivacyPolicy from './pages/settings/PrivacyPolicy';
+// import PrivacyPolicy from './pages/settings/PrivacyPolicy';
 import LandingControl from './pages/landing-control/LandingControl';
 import Occasions from './pages/occasions/Occasions';
 import Halls from './pages/occasions/halls/Halls';
@@ -71,7 +71,6 @@ const AppContent = () => {
           <Route path='/settings/employees' element={<ProtectedRoute><Employees /></ProtectedRoute>} />
           <Route path='/settings/sections' element={<ProtectedRoute><Sections /></ProtectedRoute>} />
           <Route path='/settings/pay-ways' element={<ProtectedRoute><PayWays /></ProtectedRoute>} />
-          <Route path='/settings/privacy-policy' element={<ProtectedRoute><PrivacyPolicy /></ProtectedRoute>} />
           <Route path='/landing-control' element={<ProtectedRoute><LandingControl /></ProtectedRoute>} />
           <Route path='/occasions' element={<ProtectedRoute><Occasions /></ProtectedRoute>} />
           <Route path='/halls' element={<ProtectedRoute><Halls /></ProtectedRoute>} />
