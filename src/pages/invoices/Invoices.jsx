@@ -301,22 +301,22 @@ const Invoices = () => {
           <button
             onClick={() => openEditModal(r)}
             className="transition duration-300 bg-[#8d44ad] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
-            data-label="السند"
+            data-label="معاينة"
           >
             <FaRegEye  size={14} />
           </button>
-          <span className="tooltip">السند</span>
+          <span className="tooltip">معاينة</span>
         </div>
 
         <div className="tooltip-container">
           <button
             onClick={() => openEditModal(r)}
             className="transition duration-300 bg-[#0ccbf2] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
-            data-label="السند"
+            data-label="إسترجاع"
           >
             <MdOutlineFileUpload   size={14} />
           </button>
-          <span className="tooltip">السند</span>
+          <span className="tooltip">إسترجاع</span>
         </div>
 
         <div className="tooltip-container">

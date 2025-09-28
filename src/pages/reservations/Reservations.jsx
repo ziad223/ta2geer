@@ -9,6 +9,7 @@ import { BiSolidFilePdf } from "react-icons/bi";
 import { TbReportMoney } from "react-icons/tb";
 import { PiNewspaperClippingThin } from "react-icons/pi";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { RiFilePaperLine } from "react-icons/ri";
 
 // Adding CSS for the tooltip and dropdown
 const customStyles = `
@@ -153,6 +154,8 @@ const Reservations = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
+  const [selectedNote, setSelectedNote] = useState("");
 
   // Toggle dropdown for a specific reservation
   const toggleDropdown = (id) => {
@@ -178,6 +181,11 @@ const Reservations = () => {
     setSelectedReservation(reservation);
     setEditModalOpen(true);
     setOpenDropdownId(null); // Close dropdown when opening modal
+  };
+
+  const openNotesModal = (note) => {
+    setSelectedNote(note);
+    setIsNotesModalOpen(true);
   };
 
   const handleAddReservation = (newRes) => {
@@ -220,9 +228,52 @@ const Reservations = () => {
     { label: "نقدا", key: "cash" },
     { label: "شبكة", key: "network" },
     { label: "المتبقي", key: "remaining" },
-    { label: "حالة الحجز", key: "reservationStatus" },
-    { label: "حالة الدفع", key: "paymentStatus" },
-    { label: "الملاحظات", key: "notes" },
+    { 
+      label: "حالة الحجز", 
+      key: "reservationStatus",
+      render: (row) => (
+        <span 
+          className={`inline-block w-full px-2 py-1 text-center font-bold text-white rounded-full outline-none border-none ${
+            row.reservationStatus === "مؤكد" 
+              ? "bg-green-500 border border-green-700" 
+              : "bg-yellow-500 border border-yellow-700"
+          }`}
+        >
+          {row.reservationStatus}
+        </span>
+      )
+    },
+    { 
+      label: "حالة الدفع", 
+      key: "paymentStatus",
+      render: (row) => (
+        <span 
+          className={`inline-block w-full px-2 py-1 text-center font-bold text-white rounded-full ${
+            row.paymentStatus === "جزئي" 
+              ? "bg-red-500" 
+              : "bg-green-500"
+          }`}
+        >
+          {row.paymentStatus}
+        </span>
+      )
+    },
+    { 
+      label: "الملاحظات", 
+      key: "notes",
+      render: (row) => (
+        row.notes ? (
+          <div className="flex justify-center">
+            <button 
+              onClick={() => openNotesModal(row.notes)}
+              className="text-[#000]"
+            >
+              <RiFilePaperLine size={20} />
+            </button>
+          </div>
+        ) : null
+      )
+    },
     { label: "التحكم", key: "actions" },
   ];
 
@@ -423,6 +474,26 @@ const Reservations = () => {
         onClose={() => setAddModalOpen(false)}
         onAdd={handleAddReservation}
       />
+      
+      {/* مودال الملاحظات */}
+      {isNotesModalOpen && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-md p-6 rounded-lg shadow-md">
+            <h2 className="text-lg font-bold mb-4">الملاحظات</h2>
+            <div className="mb-6 min-h-[60px] flex items-center">
+              <p className="text-gray-700">{selectedNote}</p>
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setIsNotesModalOpen(false)}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                إغلاق
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
