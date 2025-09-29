@@ -39,6 +39,7 @@ const Alerts = () => {
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const columns = [
     { label: "#", key: "id" },
@@ -108,9 +109,17 @@ const Alerts = () => {
   return (
     <Container>
       <div className="p-4 min-h-screen my-10">
-        <h2 className="text-xl font-bold mb-4">التنبيهات</h2>
+        <div className="flex items-center justify-between w-full">
+          <h2 className="text-xl font-bold mb-4">التنبيهات</h2>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md"
+          >
+            أضف تنبيه +
+          </button>
+        </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-sm">
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           {/* فلاتر البحث كلها في صف واحد */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 items-center">
             <input

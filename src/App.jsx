@@ -14,7 +14,7 @@ import Settings from './pages/settings/Settings';
 import Employees from './pages/settings/Employees';
 import Sections from './pages/settings/Sections';
 import PayWays from './pages/settings/PayWays';
-// import PrivacyPolicy from './pages/settings/PrivacyPolicy';
+import PrivacyPolicyContent from './pages/settings/PrivacyPolicyContent';
 import LandingControl from './pages/landing-control/LandingControl';
 import Occasions from './pages/occasions/Occasions';
 import Halls from './pages/occasions/halls/Halls';
@@ -99,6 +99,7 @@ const AppContent = () => {
           <Route path='/reservations-schedule' element={<ProtectedRoute><ReservationsSchedule /></ProtectedRoute>} />
           <Route path='/bond' element={<ProtectedRoute><Bond /></ProtectedRoute>} />
           <Route path='/invoice-rent' element={<ProtectedRoute><InvoiceRent /></ProtectedRoute>} />
+          <Route path='/settings/privacy-policy' element={<ProtectedRoute><PrivacyPolicyContent /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       {!hideFooter && <Footer />}

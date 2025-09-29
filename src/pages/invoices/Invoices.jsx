@@ -400,7 +400,7 @@ const Invoices = () => {
               إضافة فاتورة +
             </button>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
               <input
                 type="text"

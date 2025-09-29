@@ -384,7 +384,7 @@ const Reservations = () => {
       <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">الحجوزات</h2>
 
-        <div className="bg-white p-4 rounded-lg shadow-sm">
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           {/* فلاتر البحث */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
             <CustomSelect

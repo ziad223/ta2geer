@@ -94,10 +94,10 @@ const VisitorsReservations = () => {
   };
 
   const columns = [
-    { label: "رقم الحجز", key: "id" },
+    { label: " الحجز", key: "id" },
     { label: "العميل", key: "client" },
-    { label: "جوال العميل", key: "phone" },
-    { label: "نوع المناسبة", key: "eventType" },
+    { label: "الجوال ", key: "phone" },
+    { label: " المناسبة", key: "eventType" },
     { label: "بداية الحجز", key: "startDate" },
     { label: "نهاية الحجز", key: "endDate" },
     { label: "القاعة", key: "hall" },
