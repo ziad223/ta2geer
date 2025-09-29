@@ -134,7 +134,6 @@ const Halls = () => {
            <div className="flex gap-2">
               <Link
               to='/reservations-schedule'
-              onClick={() => setAddModalOpen(true)}
               className="bg-[#0dcaf0] flex items-center gap-2 px-3 h-[35px] text-white rounded-md w-full md:w-auto"
             >
               <FaCalendar/>

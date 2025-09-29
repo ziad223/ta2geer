@@ -92,7 +92,7 @@ const ReservationsSchedule = () => {
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
-        <h2 className="text-2xl font-bold text-gray-800">📅 تقويم القاعات</h2>
+        <h2 className="text-2xl font-bold text-gray-800"> تقويم القاعات</h2>
         <div className="flex items-center gap-2">
          <CustomSelect
   options={[

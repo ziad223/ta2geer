@@ -14,7 +14,7 @@ import Settings from './pages/settings/Settings';
 import Employees from './pages/settings/Employees';
 import Sections from './pages/settings/Sections';
 import PayWays from './pages/settings/PayWays';
-import PrivacyPolicyContent from './pages/settings/PrivacyPolicyContent';
+// import PrivacyPolicy from './pages/settings/PrivacyPolicy';
 import LandingControl from './pages/landing-control/LandingControl';
 import Occasions from './pages/occasions/Occasions';
 import Halls from './pages/occasions/halls/Halls';
@@ -40,8 +40,6 @@ import BookingPage from './pages/new-booking/BookingPage';
 import ReservationsSchedule from './pages/occasions/halls/ReservationsSchedule';
 import Bond from './pages/reservations/Bond';
 import InvoiceRent from './pages/invoices/InvoiceRent';
-
-// ✅ من عندك (accounting)
 import Accounting from './pages/accounting/Accounting';
 import AccountSettings from './pages/accounting/Account-settings';
 import AccountingTree from './pages/accounting/Accounting-tree';
@@ -49,10 +47,6 @@ import Restrictions from './pages/accounting/Restrictions';
 import AccountStatement from './pages/accounting/AccountStatement';
 import IncomeStatment from './pages/accounting/IncomeStatment';
 import TrialBalance from './pages/accounting/TrialBalance';
-
-// ✅ من الريموت
-import ReservationsRent from './pages/reservations/ReservationsRent';
-import SingleReservation from './pages/reservations/SingleReservation';
 
 // ✨ ملف مساعد علشان نقدر نستفيد من useLocation
 const AppContent = () => {
@@ -80,15 +74,12 @@ const AppContent = () => {
           <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='/add-client' element={<ProtectedRoute><AddClient /></ProtectedRoute>} />
           <Route path='/reservations' element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
-          <Route path='/single-reservation' element={<ProtectedRoute><SingleReservation /></ProtectedRoute>} />
           <Route path='/visitor-reservations' element={<ProtectedRoute><VisitorsReservations /></ProtectedRoute>} />
-          <Route path='/reservations-rent' element={<ProtectedRoute><ReservationsRent /></ProtectedRoute>} />
           <Route path='/invoices' element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path='/settings/employees' element={<ProtectedRoute><Employees /></ProtectedRoute>} />
           <Route path='/settings/sections' element={<ProtectedRoute><Sections /></ProtectedRoute>} />
           <Route path='/settings/pay-ways' element={<ProtectedRoute><PayWays /></ProtectedRoute>} />
-          <Route path='/settings/privacy-policy' element={<ProtectedRoute><PrivacyPolicyContent /></ProtectedRoute>} />
           <Route path='/landing-control' element={<ProtectedRoute><LandingControl /></ProtectedRoute>} />
           <Route path='/occasions' element={<ProtectedRoute><Occasions /></ProtectedRoute>} />
           <Route path='/halls' element={<ProtectedRoute><Halls /></ProtectedRoute>} />
@@ -111,8 +102,6 @@ const AppContent = () => {
           <Route path='/reservations-schedule' element={<ProtectedRoute><ReservationsSchedule /></ProtectedRoute>} />
           <Route path='/bond' element={<ProtectedRoute><Bond /></ProtectedRoute>} />
           <Route path='/invoice-rent' element={<ProtectedRoute><InvoiceRent /></ProtectedRoute>} />
-
-          {/* ✅ Routes جديدة بتاعة الـ accounting */}
           <Route path='/accounting' element={<ProtectedRoute><Accounting /></ProtectedRoute>} />
           <Route path='/account-settings' element={<ProtectedRoute><AccountSettings /></ProtectedRoute>} />
           <Route path='/account-tree' element={<ProtectedRoute><AccountingTree /></ProtectedRoute>} />
