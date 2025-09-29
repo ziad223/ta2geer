@@ -440,12 +440,12 @@ const Reservations = () => {
               />
             </div>
 
-            <button
-              onClick={() => setAddModalOpen(true)}
-              className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
+            <Link
+            to='/new-booking'
+              className="bg-[#2ba670] flex items-center justify-center text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
             >
               إضافة حجز +
-            </button>
+            </Link>
           </div>
 
           <Table columns={columns} data={dataWithActions} />

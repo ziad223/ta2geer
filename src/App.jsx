@@ -40,6 +40,13 @@ import BookingPage from './pages/new-booking/BookingPage';
 import ReservationsSchedule from './pages/occasions/halls/ReservationsSchedule';
 import Bond from './pages/reservations/Bond';
 import InvoiceRent from './pages/invoices/InvoiceRent';
+import Accounting from './pages/accounting/Accounting';
+import AccountSettings from './pages/accounting/Account-settings';
+import AccountingTree from './pages/accounting/Accounting-tree';
+import Restrictions from './pages/accounting/Restrictions';
+import AccountStatement from './pages/accounting/AccountStatement';
+import IncomeStatment from './pages/accounting/IncomeStatment';
+import TrialBalance from './pages/accounting/TrialBalance';
 
 // ✨ ملف مساعد علشان نقدر نستفيد من useLocation
 const AppContent = () => {
@@ -95,6 +102,13 @@ const AppContent = () => {
           <Route path='/reservations-schedule' element={<ProtectedRoute><ReservationsSchedule /></ProtectedRoute>} />
           <Route path='/bond' element={<ProtectedRoute><Bond /></ProtectedRoute>} />
           <Route path='/invoice-rent' element={<ProtectedRoute><InvoiceRent /></ProtectedRoute>} />
+          <Route path='/accounting' element={<ProtectedRoute><Accounting /></ProtectedRoute>} />
+          <Route path='/account-settings' element={<ProtectedRoute><AccountSettings /></ProtectedRoute>} />
+          <Route path='/account-tree' element={<ProtectedRoute><AccountingTree /></ProtectedRoute>} />
+          <Route path='/restrictions' element={<ProtectedRoute><Restrictions /></ProtectedRoute>} />
+          <Route path='/account-statement' element={<ProtectedRoute><AccountStatement /></ProtectedRoute>} />
+          <Route path='/income-statement' element={<ProtectedRoute><IncomeStatment /></ProtectedRoute>} />
+          <Route path='/trial-balance' element={<ProtectedRoute><TrialBalance /></ProtectedRoute>} />
         </Routes>
       </Suspense>
       {!hideFooter && <Footer />}
