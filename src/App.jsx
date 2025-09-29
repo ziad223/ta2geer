@@ -40,6 +40,8 @@ import BookingPage from './pages/new-booking/BookingPage';
 import ReservationsSchedule from './pages/occasions/halls/ReservationsSchedule';
 import Bond from './pages/reservations/Bond';
 import InvoiceRent from './pages/invoices/InvoiceRent';
+import ReservationsRent from './pages/reservations/ReservationsRent';
+import SingleReservation from './pages/reservations/SingleReservation';
 
 // ✨ ملف مساعد علشان نقدر نستفيد من useLocation
 const AppContent = () => {
@@ -67,7 +69,9 @@ const AppContent = () => {
           <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='/add-client' element={<ProtectedRoute><AddClient /></ProtectedRoute>} />
           <Route path='/reservations' element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
+          <Route path='/single-reservation' element={<ProtectedRoute><SingleReservation /></ProtectedRoute>} />
           <Route path='/visitor-reservations' element={<ProtectedRoute><VisitorsReservations /></ProtectedRoute>} />
+          <Route path='/reservations-rent' element={<ProtectedRoute><ReservationsRent /></ProtectedRoute>} />
           <Route path='/invoices' element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
           <Route path='/settings' element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path='/settings/employees' element={<ProtectedRoute><Employees /></ProtectedRoute>} />
