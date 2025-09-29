@@ -11,6 +11,7 @@ import { BiSolidFilePdf } from "react-icons/bi";
 import { TbReportMoney } from "react-icons/tb";
 import { PiNewspaperClippingThin } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import RecoveryModal from "./RecoveryModal";
 
 // Adding CSS for the tooltip and dropdown
 const customStyles = `
@@ -102,7 +103,7 @@ const Invoices = () => {
   const [reservationStatusFilter, setReservationStatusFilter] = useState("");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState(null); // Track which dropdown is open
-
+  const [isRecovaryModelOpen, setRecovaryModelOpen] = useState(false);
   const [reservations, setReservations] = useState([
     {
       id: 1,
@@ -209,16 +210,16 @@ const Invoices = () => {
 
   // Close dropdown when clicking outside
   const handleClickOutside = (e) => {
-    if (!e.target.closest('.dropdown-container')) {
+    if (!e.target.closest(".dropdown-container")) {
       setOpenDropdownId(null);
     }
   };
 
   // Add event listener for closing dropdowns when clicking outside
   useMemo(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -231,6 +232,12 @@ const Invoices = () => {
   const openDeleteModal = (reservation) => {
     setSelectedReservation(reservation);
     setDeleteModalOpen(true);
+    setOpenDropdownId(null); // Close dropdown when opening modal
+  };
+
+  const openRecoveryModal = (reservation) => {
+    setSelectedReservation(reservation);
+    setRecovaryModelOpen(true);
     setOpenDropdownId(null); // Close dropdown when opening modal
   };
 
@@ -299,33 +306,34 @@ const Invoices = () => {
     actions: (
       <div className="flex justify-center align-center" style={{ gap: "3px" }}>
         <div className="tooltip-container">
-          <button
-            onClick={() => openEditModal(r)}
+          <Link
+            to="/invoice-rent"
             className="transition duration-300 bg-[#8d44ad] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
             data-label="معاينة"
           >
-            <FaRegEye  size={14} />
-          </button>
+            <FaRegEye size={14} />
+          </Link>
           <span className="tooltip">معاينة</span>
         </div>
 
         <div className="tooltip-container">
           <button
-            onClick={() => openEditModal(r)}
+            onClick={() => openRecoveryModal(r)}
             className="transition duration-300 bg-[#0ccbf2] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
             data-label="إسترجاع"
           >
-            <MdOutlineFileUpload   size={14} />
+            <MdOutlineFileUpload size={14} />
           </button>
           <span className="tooltip">إسترجاع</span>
         </div>
 
         <div className="tooltip-container">
-          <Link to='/bond'
+          <Link
+            to="/bond"
             className="transition duration-300 bg-[#fec107] rounded-sm text-[#ffff] w-[30px] h-[30px] flex items-center justify-center"
             data-label="السند"
           >
-            <FaRegFileImage   size={14} />
+            <FaRegFileImage size={14} />
           </Link>
           <span className="tooltip">السند</span>
         </div>
@@ -341,18 +349,18 @@ const Invoices = () => {
             <div className="rounded-full bg-[#000] w-[4px] h-[4px]"></div>
             <div className="rounded-full bg-[#000] w-[4px] h-[4px]"></div>
           </div>
-          
+
           {/* Dropdown menu */}
           {openDropdownId === r.id && (
             <div className="dropdown-menu">
-              <div 
+              <div
                 className="dropdown-item edit"
                 onClick={() => openEditModal(r)}
               >
                 <FaEdit size={17} />
                 <span>تعديل</span>
               </div>
-              <div 
+              <div
                 className="dropdown-item delete text-red-500"
                 onClick={() => openDeleteModal(r)}
               >
@@ -392,7 +400,7 @@ const Invoices = () => {
               إضافة فاتورة +
             </button>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
               <input
                 type="text"
@@ -479,6 +487,13 @@ const Invoices = () => {
             onClose={() => setDeleteModalOpen(false)}
             reservation={selectedReservation}
             onDelete={handleDeleteReservation}
+          />
+
+          <RecoveryModal
+            isOpen={isRecovaryModelOpen}
+            onClose={() => setRecovaryModelOpen(false)}
+            reservation={selectedReservation}
+            onSave={handleUpdateReservation}
           />
           <AddInvoiceModal
             isOpen={isAddModalOpen}

@@ -84,7 +84,7 @@ const Clients = () => {
       <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">العملاء</h2>
 
-        <div className="bg-white mt-5 shadow-sm p-5 rounded-lg">
+        <div className="bg-white mt-5 shadow-lg p-5 rounded-lg">
           <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3 md:gap-0">
             <input
               type="text"

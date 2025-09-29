@@ -108,10 +108,18 @@ const Services = () => {
 
   return (
     <Container>
-      <div className="p-4 min-h-screen">
-        <h2 className="text-xl font-bold mb-4">الخدمات</h2>
+      <div className="p-4 min-h-screen my-10">
+        <div className="flex items-center justify-between w-full">
+          <h2 className="text-xl font-bold mb-4">الخدمات</h2>
+          <button
+            onClick={() => setAddModalOpen(true)}
+            className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md"
+          >
+            أضف خدمة +
+          </button>
+        </div>
 
-        <div className="bg-white mt-5 shadow-sm p-5 rounded-lg">
+        <div className="bg-white mt-5 shadow-lg p-5 rounded-lg">
           <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3 md:gap-0">
             {/* اللينكات */}
             <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
@@ -186,17 +194,23 @@ const Services = () => {
               />
             </div>
 
-            <div className="flex items-center gap-1">
-              <div className="bg-[#17a2b8] text-sm px-2 w-max h-[40px] text-white rounded-md flex items-center justify-center">
-                كل الخدمات : {services.length}
-              </div>
-              <div className="bg-blue-600 text-sm px-2 w-max h-[40px] text-white rounded-md flex items-center justify-center">
-                خدمات منتهية الكمية : 2
-              </div>
-              <div className="bg-yellow-500 text-sm px-2 w-max h-[40px] text-white rounded-md flex items-center justify-center">
-                خدمات منتهية الصلاحية : 1
-              </div>
-            </div>
+            <select className="outline-none h-[40px] border px-3 rounded-lg w-full md:w-auto">
+              <option>كل الخدمات : {services.length}</option>
+              <option>خدمات منتهية الكمية : 2</option>
+              <option>خدمات منتهية الصلاحية : 1</option>
+
+
+
+
+
+
+
+
+
+
+
+
+            </select>
           </div>
 
           {/* الجدول */}

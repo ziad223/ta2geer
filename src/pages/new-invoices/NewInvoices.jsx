@@ -54,7 +54,7 @@ const NewInvoices = () => {
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const columns = [
     { label: "رقم الفاتورة", key: "id" },
@@ -129,16 +129,17 @@ const [isAddModalOpen, setAddModalOpen] = useState(false);
   return (
     <Container>
       <div className="p-4 min-h-screen my-10">
-      <div className="flex items-center w-full justify-between">
-                <h2 className="text-xl font-bold mb-4">الفواتير الجديدة  </h2>
-            <button
-  onClick={() => setAddModalOpen(true)}
-  className="bg-[#2ba670] text-white rounded-lg text-sm h-[40px] outline-none w-full max-w-[120px]"
->
-  إضافة فاتورة +
-</button>
-      </div>
-        <div className="bg-white p-4 rounded-lg shadow-sm">
+        <div className="flex items-center justify-between w-full">
+          <h2 className="text-xl font-bold mb-4">الفواتير</h2>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md"
+          >
+            أضف فاتورة +
+          </button>
+        </div>
+
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           {/* فلاتر البحث */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 items-center">
             {/* بحث برقم الفاتورة */}
@@ -211,11 +212,11 @@ const [isAddModalOpen, setAddModalOpen] = useState(false);
           onDelete={handleDeleteInvoice}
         />
         <AddInvoiceModal
-  isOpen={isAddModalOpen}
-  onClose={() => setAddModalOpen(false)}
-  onSave={(newInvoice) => setInvoices(prev => [...prev, newInvoice])}
-  clients={[...new Set(invoices.map(inv => inv.client))]} // قائمة العملاء المميزة
-/>
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onSave={(newInvoice) => setInvoices(prev => [...prev, newInvoice])}
+          clients={[...new Set(invoices.map(inv => inv.client))]} // قائمة العملاء المميزة
+        />
       </div>
     </Container>
   );

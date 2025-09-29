@@ -83,18 +83,17 @@ const PhotoGallery = () => {
   return (
     <Container>
       <div className="p-4 min-h-screen my-10">
-        <h2 className="text-xl font-bold mb-4">معرض الصور</h2>
+        <div className="flex items-center justify-between w-full">
+          <h2 className="text-xl font-bold mb-4">معرض الصور</h2>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-[#2ba670] px-3 h-[35px] text-white rounded-md"
+          >
+            أضف صورة +
+          </button>
+        </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-sm">
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={() => setAddModalOpen(true)}
-              className="bg-green-600 text-white px-4 py-2 rounded"
-            >
-              إضافة صورة +
-            </button>
-          </div>
-
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           <Table columns={columns} data={dataWithActions} />
         </div>
 

@@ -309,7 +309,7 @@ const Reservations = () => {
         </div>
         <div className="tooltip-container">
           <Link
-          to='/invoice-rent'
+          to='/reservations-rent'
             className="transition  duration-300 border-[#1374fd] hover:bg-[#1374fd] border-2 hover:bg-gray-200 hover:text-white text-[#1374fd] w-[30px] h-[30px] flex items-center justify-center"
             data-label="الفاتورة"
           >
@@ -319,13 +319,13 @@ const Reservations = () => {
         </div>
 
         <div className="tooltip-container">
-          <button
-            onClick={() => openEditModal(r)}
+          <Link
+            to='/single-reservation'
             className="transition duration-300 border-[#dc3545] border-2 hover:bg-[#dc3545] hover:text-white text-[#dc3545] w-[30px] h-[30px] flex items-center justify-center"
             data-label="العقد"
           >
             <BiSolidFilePdf size={14} />
-          </button>
+          </Link>
           <span className="tooltip">العقد</span>
         </div>
 
@@ -384,7 +384,7 @@ const Reservations = () => {
       <div className="p-4 min-h-screen my-10">
         <h2 className="text-xl font-bold mb-4">الحجوزات</h2>
 
-        <div className="bg-white p-4 rounded-lg shadow-sm">
+        <div className="bg-white p-4 rounded-lg shadow-lg">
           {/* فلاتر البحث */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-6 items-center">
             <CustomSelect
